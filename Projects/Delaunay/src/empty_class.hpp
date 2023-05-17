@@ -6,12 +6,39 @@ using namespace std;
 
 namespace ProjectLibrary
 {
-  class Empty
-  {
-    public:
-      void Show() const {cout<< "Hello world;"<< endl; }
-      void Print() const {cout << "Questo progetto sarà copmplicato" << endl;}
-  };
+
+struct Point
+{
+    double x, y;
+    Point(double x = 0, double y = 0) : x(x), y(y)
+    {
+        cout << "Coordinates are: (" << x << ", " << y << ")" << endl;
+    }
+};
+
+
+class Triangle
+{
+private:
+    Point p1,p2,p3;
+
+public:
+    // controlla se i punti sono collineari
+    bool collineari(Point p1, Point p2, Point p3);
+
+    // ritorna il circocentro
+    Point CircoCentro(Point p1, Point p2, Point p3);
+
+};
+
+
+
+
+
+
+
 }
+
+
 
 #endif // __EMPTY_H
