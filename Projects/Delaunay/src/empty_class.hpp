@@ -16,6 +16,17 @@ struct Point
     }
 };
 
+// calcola il lato
+struct Edge
+{
+    Point p1, p2, e;
+    Edge(Point p1, Point p2)
+    {
+        e.x = p2.x-p1.x;
+        e.y = p2.y-p2.y;
+    }
+};
+
 
 class Triangle
 {
