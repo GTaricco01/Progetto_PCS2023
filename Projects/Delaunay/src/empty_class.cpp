@@ -10,8 +10,6 @@ using namespace Eigen;
 namespace ProjectLibrary
 {
 
-
-
 Point CircoCentro(Point p1, Point p2, Point p3)
 {
     Point cc;
@@ -20,9 +18,9 @@ Point CircoCentro(Point p1, Point p2, Point p3)
     lato23 = p3-p2;
     lato31 = p1-p3;
 
-    double alpha = 0.0, beta = 0.0, gamma = 0.0;
+    double alpha, beta, gamma;
     alpha = acos(lato12*lato31/(norm(lato12) * norm(lato31)));
-    beta= acos(lato12*lato23/(norm(lato12) * norm(lato23)));
+    beta  = acos(lato12*lato23/(norm(lato12) * norm(lato23)));
     gamma = acos(lato23*lato31/(norm(lato23) * norm(lato31)));
 
     cc=Point((p1.x*sin(2*alpha) + p2.x*sin(2*beta) + p3.x*sin(2*gamma))/(sin(2*alpha)+sin(2*beta)+sin(2*gamma)),
@@ -34,22 +32,53 @@ Point CircoCentro(Point p1, Point p2, Point p3)
 bool Collineari(Point& p1, Point& p2, Point& p3, double tol = 1e-12)
 {
     // sono collineari se l'area del triangolo è minore della tolleranza
-    double area, alpha;
+    double alpha;
     Point lato12, lato31;
     lato12 = p2-p1;
     lato31 = p1-p3;
     alpha = acos(lato12*lato31/(norm(lato12) * norm(lato31)));
 
-    area = .5 * sin(alpha) * norm(lato12) * norm(lato31);
-    if (area <= tol)
-        return true;
-    else
-        return false;
+    return (alpha <= tol);
 }
 
-bool IsInTheCircle(const Point& q) {
-    Matrix<3, 3, double> M;
-    M<< p1.x-q.x;
+bool IsInTheCircle(Point& p1, Point& p2, Point& p3, Point& d)
+{
+    // assuming points are ordered in counterclockwise order
+
+    /*Matrix<3, 3, double> M;
+    M<< p1.x-q.x;*/
+    Matrix<double, 3, 3> mat;
+    mat << p1.x-d.x, p1.y-d.y, (p1.x-d.x)*(p1.x-d.x) + (p1.y-d.y)*(p1.y-d.y),
+        p2.x-d.x, p2.y-d.y, (p2.x-d.x)*(p2.x-d.x) + (p2.y-d.y)*(p2.y-d.y),
+        p3.x-d.x, p3.y-d.y, (p3.x-d.x)*(p3.x-d.x) + (p3.y-d.y)*(p3.y-d.y);
+
+    return (mat.determinant() > 0);
+}
+
+bool isCounter(vector<Point> points)
+{
+    unsigned int n = points.size();
+    // ultimo punto con il primo
+    int s = (points[0].x-points[n-1].x)*(points[0].y-points[n-1].y);
+
+    for (unsigned int i = 1; i < n; i++)
+    {
+        s += (points[i].x-points[i-1].x)*(points[i].y-points[i-1].y);
+    }
+
+    return (s < 0); // se è zero? boh
 }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
