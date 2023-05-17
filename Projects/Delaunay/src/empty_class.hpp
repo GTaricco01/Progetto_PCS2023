@@ -2,6 +2,7 @@
 #define __EMPTY_H
 
 #include <iostream>
+
 using namespace std;
 
 namespace ProjectLibrary
@@ -14,16 +15,18 @@ struct Point
     {
         cout << "Coordinates are: (" << x << ", " << y << ")" << endl;
     }
-};
 
-// calcola il lato
-struct Edge
-{
-    Point p1, p2, e;
-    Edge(Point p1, Point p2)
+    friend inline Point operator - (const Point& p1, const Point& p2)
     {
-        e.x = p2.x-p1.x;
-        e.y = p2.y-p2.y;
+        return Point(p1.x-p2.x,p1.y-p2.y);
+    }
+    friend inline double operator * (const Point& p1, const Point& p2)
+    {
+        return p1.x*p2.x + p1.y*p2.y;
+    }
+    friend inline double norm(const Point& p)
+    {
+        return sqrt(p.x*p.x + p.y*p.y);
     }
 };
 
@@ -35,7 +38,7 @@ private:
 
 public:
     // controlla se i punti sono collineari
-    bool collineari(Point p1, Point p2, Point p3);
+    bool Collineari(Point p1, Point p2, Point p3, double tol = 1e-12);
 
     // ritorna il circocentro
     Point CircoCentro(Point p1, Point p2, Point p3);
