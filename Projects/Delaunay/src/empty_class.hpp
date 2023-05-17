@@ -2,13 +2,15 @@
 #define __EMPTY_H
 
 #include <iostream>
+using namespace std;
 
 namespace ProjectLibrary
 {
   class Empty
   {
     public:
-      void Show() const { std::cout<< "Hello world;"<< std::endl; }
+      void Show() const {cout<< "Hello world;"<< endl; }
+      void Print() const {cout << "Questo progetto sarà copmplicato" << endl;}
   };
 }
 
