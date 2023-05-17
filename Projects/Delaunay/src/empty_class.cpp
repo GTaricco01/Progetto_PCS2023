@@ -3,7 +3,11 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+<<<<<<< HEAD
 #include <cmath>
+=======
+#include "eigen\eigen"
+>>>>>>> 2649d8c3dcd4be9df86f11fe5c754365dc80f00d
 
 namespace ProjectLibrary
 {
@@ -44,5 +48,9 @@ bool Collineari(Point& p1, Point& p2, Point& p3, double tol = 1e-12)
     return false;
 }
 
+bool IsInTheCircle(const Point& q) {
+    Matrix<3, 3, double> M;
+    M<< p1.x-q.x
+}
 
 }

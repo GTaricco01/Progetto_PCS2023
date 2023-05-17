@@ -43,6 +43,8 @@ public:
     // ritorna il circocentro
     Point CircoCentro(Point p1, Point p2, Point p3);
 
+    // controlla se un nuovo punto q è nel circocerchio del triangolo
+    bool isInTheCircle(const Point& q);
 };
 
 
