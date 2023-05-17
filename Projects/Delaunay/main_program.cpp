@@ -1,5 +1,6 @@
 #include "empty_class.hpp"
 #include <iostream>
+#include <numeric>
 #include <sstream>
 #include <fstream>
 #include "Eigen/Eigen"
@@ -34,8 +35,9 @@ int main()
 
 
     Vector2d a1 = {0,1};
-    Vector2d a2 = {1,2};
-    cout << a1[1] << endl;
+    Vector2d a2 = {1,0};
+    cout << acos(a1.dot(a2)/(a1.norm() * a2.norm())) << endl;
+    cout << M_PI_2 << endl;
 
 
     return 0;
