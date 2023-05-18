@@ -7,10 +7,12 @@
 #include "Eigen/Eigen"
 
 using namespace Eigen;
+using namespace ProjectLibrary;
+
 namespace ProjectLibrary
 {
 
-Point CircoCentro(Point p1, Point p2, Point p3)
+Point Triangle::CircoCentro()
 {
     Point cc;
     Point lato12, lato23, lato31;
@@ -29,7 +31,7 @@ Point CircoCentro(Point p1, Point p2, Point p3)
     return cc;
 }
 
-bool Collineari(Point& p1, Point& p2, Point& p3, double tol = 1e-12)
+bool Triangle::Collineari(double tol)
 {
     // sono collineari se l'area del triangolo è minore della tolleranza
     double alpha;
@@ -41,12 +43,10 @@ bool Collineari(Point& p1, Point& p2, Point& p3, double tol = 1e-12)
     return (alpha <= tol);
 }
 
-bool IsInTheCircle(Point& p1, Point& p2, Point& p3, Point& d)
+bool Triangle::IsInTheCircle(Point& d)
 {
     // assuming points are ordered in counterclockwise order
 
-    /*Matrix<3, 3, double> M;
-    M<< p1.x-q.x;*/
     Matrix<double, 3, 3> mat;
     mat << p1.x-d.x, p1.y-d.y, (p1.x-d.x)*(p1.x-d.x) + (p1.y-d.y)*(p1.y-d.y),
         p2.x-d.x, p2.y-d.y, (p2.x-d.x)*(p2.x-d.x) + (p2.y-d.y)*(p2.y-d.y),
@@ -55,7 +55,7 @@ bool IsInTheCircle(Point& p1, Point& p2, Point& p3, Point& d)
     return (mat.determinant() > 0);
 }
 
-bool isCounter(vector<Point> points)
+bool Point::isCounter(vector<Point> points)
 {
     unsigned int n = points.size();
     // ultimo punto con il primo

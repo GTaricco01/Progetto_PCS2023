@@ -28,6 +28,8 @@ struct Point
     {
         return sqrt(p.x*p.x + p.y*p.y);
     }
+    // controllo counterclockwise
+    bool isCounter(vector<Point> points);
 };
 
 
@@ -40,13 +42,16 @@ public:
     Triangle(Point& p1, Point& p2, Point& p3) : p1(p1), p2(p2), p3(p3){}
 
     // controlla se i punti sono collineari
-    bool Collineari(Point p1, Point p2, Point p3, double tol = 1e-12);
+    bool Collineari(double tol = 1e-12);
 
     // calcola il circocentro
-    Point CircoCentro(Point p1, Point p2, Point p3);
+    Point CircoCentro();
 
     // controlla se un nuovo punto q è nel circocerchio del triangolo
-    bool IsInTheCircle(Point& p1, Point& p2, Point& p3, Point& d);
+    bool IsInTheCircle(Point& d);
+
+
+
 };
 
 

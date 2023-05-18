@@ -18,7 +18,7 @@ int main()
     ifstream file;
     vector<Point> points;
 
-    file.open(input1);
+    file.open(input2);
     getline(file,line);
 
     while (!file.eof())
@@ -33,10 +33,6 @@ int main()
         points.push_back(Point(x,y));
     }
 
-    Point p1 = Point(1,0);
-    Point p2 = Point(-1,0);
-    Point p3 = Point(0,1);
-    Point d = Point(2,0);
 
 
 
