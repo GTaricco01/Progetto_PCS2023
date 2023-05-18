@@ -50,8 +50,6 @@ public:
     // controlla se un nuovo punto q è nel circocerchio del triangolo
     bool IsInTheCircle(Point& d);
 
-
-
 };
 
 
