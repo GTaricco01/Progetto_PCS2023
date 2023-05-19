@@ -4,7 +4,6 @@
 #include <sstream>
 #include <fstream>
 #include "Eigen/Eigen"
-#include "map"
 #include <cmath>
 
 using namespace std;
@@ -17,7 +16,7 @@ int main()
     string input2 = "/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/prova_punti.txt";
     string line;
     ifstream file;
-    map<unsigned int, Vector2d> points ={};
+    vector<Point> points;
 
     file.open(input2);
     getline(file,line);
@@ -31,13 +30,14 @@ int main()
         istringstream convert(line);
 
         convert >> id >> x >> y;
+        points.push_back(Point(x,y));
     }
 
 
-    Vector2d a1 = {0,1};
-    Vector2d a2 = {1,0};
-    cout << acos(a1.dot(a2)/(a1.norm() * a2.norm())) << endl;
-    cout << M_PI_2 << endl;
+
+
+
+
 
 
     return 0;
