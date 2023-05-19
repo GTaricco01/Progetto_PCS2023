@@ -2,6 +2,8 @@
 #define __EMPTY_H
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -15,27 +17,43 @@ struct Point
     /*{
         cout << "Coordinates are: (" << x << ", " << y << ")" << endl;
     }*/
+    bool isCounter(const vector<Point> points);
 
-    friend inline Point operator - (const Point& p1, const Point& p2)
-    {
-        return Point(p1.x-p2.x,p1.y-p2.y);
-    }
-    friend inline double operator * (const Point& p1, const Point& p2)
-    {
-        return p1.x*p2.x + p1.y*p2.y;
-    }
-    friend inline double norm(const Point& p)
-    {
-        return sqrt(p.x*p.x + p.y*p.y);
-    }
-    // controllo counterclockwise
-    bool isCounter(vector<Point> points);
 };
 
+// override operatori di somma e differenza tra oggetti Point
+inline Point operator - (const Point& p1, const Point& p2)
+{
+    return Point(p1.x-p2.x,p1.y-p2.y);
+}
+inline double operator * (const Point& p1, const Point& p2)
+{
+    return p1.x*p2.x + p1.y*p2.y;
+}
+
+// creazione funzione inline NORMA per oggetto Point
+inline double norm(const Point& p)
+{
+    return sqrt(p.x*p.x + p.y*p.y);
+}
+/*
+// classe Reader: legge da file di input e crea vettore in cui sono memorizzati gli oggetti Point
+class Reader
+{
+private:
+    string input;
+    string line;
+    ifstream file;
+    vector<Point> points;
+public:
+    Reader() = default;
+    vector<Point> MakeVector();
+};
+*/
 
 class Triangle
 {
-private:
+public:
     Point p1,p2,p3;
 
 public:
@@ -50,16 +68,11 @@ public:
     // controlla se un nuovo punto q è nel circocerchio del triangolo
     bool IsInTheCircle(Point& d);
 
+    // controllo counterclockwise
+    bool isCounterClockWise(Triangle t);
+
 };
 
 
-
-
-
-
-
 }
-
-
-
 #endif // __EMPTY_H
