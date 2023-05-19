@@ -63,19 +63,52 @@ bool Triangle::IsInTheCircle(Point& d)
     return (mat.determinant() > 0);
 }
 
+// controllo su tutti i punti
 bool Point::isCounter(vector<Point> points)
 {
     unsigned int n = points.size();
     // ultimo punto con il primo
-    int s = (points[0].x-points[n-1].x)*(points[0].y-points[n-1].y);
+    int s = (points[0].x-points[n-1].x)*(points[0].y+points[n-1].y);
 
     for (unsigned int i = 1; i < n; i++)
     {
-        s += (points[i].x-points[i-1].x)*(points[i].y-points[i-1].y);
+        s += (points[i].x-points[i-1].x)*(points[i].y+points[i-1].y);
     }
 
     return (s < 0); // se è zero? boh
 }
+
+// controllo sul singolo triangolo
+bool Triangle::isCounterClockWise(Triangle t)
+{
+    int s = (t.p2.x-t.p1.x)*(t.p2.y+t.p1.y) +
+            (t.p3.x-t.p2.x)*(t.p3.y+t.p2.y) +
+            (t.p1.x-t.p3.x)*(t.p1.y+t.p3.y);
+
+    return (s < 0);
+}
+/*
+vector<Point> Reader::MakeVector()
+{
+    file.open(input);
+    getline(file,line);
+    while (!file.eof())
+    {
+        double id, x, y;
+        getline(file,line);
+        istringstream cast(line);
+
+        cast >> id >> x >> y;
+        points.push_back(Point(x,y));
+    }
+
+    for (Point p : points)
+    {
+        cout << "(" << p.x << ", " << p.y << ")" << endl;
+    }
+    return points;
+}
+*/
 
 }
 
