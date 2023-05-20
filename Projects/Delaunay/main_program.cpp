@@ -52,7 +52,7 @@ int main()
     cout << "(" << cc.x << ", " << cc.y << ")" << endl;
 
 
-    if (t.isCounterClockWise(t))
+    if (t.isCounterClockWise())
     {
 
         if (t.IsInTheCircle(d))

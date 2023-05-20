@@ -31,14 +31,6 @@ Point Triangle::CircoCentro()
     return cc;
 }
 
-bool Triangle::isInTheCircle(const Point& q) {
-    Eigen::Matrix3d M;
-    M << p1.x-q.x, p1.y-q.y, (p1.x-q.x)*(p1.x-q.x)+(p1.y-q.y)*(p1.y-q.y),
-         p2.x-q.x, p2.y-q.y, (p2.x-q.x)*(p2.x-q.x)+(p2.y-q.y)*(p2.y-q.y),
-         p3.x-q.x, p3.y-q.y, (p3.x-q.x)*(p3.x-q.x)+(p3.y-q.y)*(p3.y-q.y);
-    return (M.determinant() > 0); //da considerare tolleranza
-}
-
 bool Triangle::Collineari(double tol)
 {
     // sono collineari se l'area del triangolo è minore della tolleranza
@@ -51,7 +43,7 @@ bool Triangle::Collineari(double tol)
     return (alpha <= tol);
 }
 
-bool Triangle::IsInTheCircle(Point& d)
+bool Triangle::IsInTheCircle(const Point& d)
 {
     // assuming points are ordered in counterclockwise order
 
@@ -64,7 +56,7 @@ bool Triangle::IsInTheCircle(Point& d)
 }
 
 // controllo su tutti i punti
-bool Point::isCounter(vector<Point> points)
+/*bool isCounter(vector<Point> points)
 {
     unsigned int n = points.size();
     // ultimo punto con il primo
@@ -76,7 +68,7 @@ bool Point::isCounter(vector<Point> points)
     }
 
     return (s < 0); // se è zero? boh
-}
+}*/
 
 // controllo sul singolo triangolo
 bool Triangle::isCounterClockWise()
