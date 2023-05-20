@@ -73,7 +73,7 @@ public:
     bool IsInTheCircle(const Point& d);
 
     // controllo counterclockwise
-    bool isCounterClockWise(Triangle t);
+    bool isCounterClockWise();
 
 };
 
