@@ -31,18 +31,18 @@ Point Triangle::CircoCentro()
     return cc;
 }
 
-bool Triangle::Collineari(double tol)
+bool Collineari(const Point &p1, const Point &p2, const Point &p3, double tol)
 {
     // sono collineari se l'area del triangolo è minore della tolleranza
-    double alpha;
+    double prodotto;
     Point lato12, lato31;
     lato12 = p2-p1;
     lato31 = p1-p3;
-    alpha = acos(lato12*lato31/(norm(lato12) * norm(lato31)));
+    prodotto = prod(lato12,lato31);
 
-    return (alpha <= tol);
+    return (abs(prodotto) <= tol);
+
 }
-
 bool Triangle::IsInTheCircle(const Point& d)
 {
     // assuming points are ordered in counterclockwise order
@@ -56,7 +56,7 @@ bool Triangle::IsInTheCircle(const Point& d)
 }
 
 // controllo su tutti i punti
-/*bool isCounter(vector<Point> points)
+bool isCounter(vector<Point> points)
 {
     unsigned int n = points.size();
     // ultimo punto con il primo
@@ -68,7 +68,7 @@ bool Triangle::IsInTheCircle(const Point& d)
     }
 
     return (s < 0); // se è zero? boh
-}*/
+}
 
 // controllo sul singolo triangolo
 bool Triangle::isCounterClockWise()
@@ -79,8 +79,8 @@ bool Triangle::isCounterClockWise()
 
     return (s < 0);
 }
-/*
-vector<Point> Reader::MakeVector()
+
+map<unsigned int, Point> Reader::MakeVector(const string& input)
 {
     file.open(input);
     getline(file,line);
@@ -91,16 +91,62 @@ vector<Point> Reader::MakeVector()
         istringstream cast(line);
 
         cast >> id >> x >> y;
-        points.push_back(Point(x,y));
+        points.insert(pair<unsigned int, Point> (id,Point(x,y)));
     }
-
+    /*
     for (Point p : points)
     {
         cout << "(" << p.x << ", " << p.y << ")" << endl;
-    }
+    }*/
     return points;
 }
-*/
+
+
+// due cicli: while e for. While vero o falso controllo se il triangolo continua a non avere punti alò'interno del suo cirxocentro
+// con il For itero sui punti e controllo se stanno dentro il circocentro
+vector<Triangle> Triangulation::Delaunay(map<unsigned int, Point>& points)
+{
+    bool flag = true;
+    while (flag)
+    {
+        Triangle t;
+        t = Triangle(Point(points[0].x,points[0].y),
+                     Point(points[1].x,points[1].y),
+                     Point(points[2].x,points[2].y));
+        for (unsigned int i = 3; i < points.size(); i++)
+        {
+
+
+            if (!t.isCounterClockWise())
+            {
+                ......
+                    flag = False;
+            }
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+    return triangles;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
