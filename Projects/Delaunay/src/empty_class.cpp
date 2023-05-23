@@ -106,6 +106,44 @@ map<unsigned int, Point> Reader::MakeVector(const string& input)
 // con il For itero sui punti e controllo se stanno dentro il circocentro
 vector<Triangle> Triangulation::Delaunay(map<unsigned int, Point>& points)
 {
+    unsigned int n = points.size();
+    // define super triangle
+    double minX, minY, maxX, maxY;
+    minX = points[0].x;
+    minY = points[0].y;
+    maxX = minX;
+    maxY = minY;
+
+    for (unsigned int i = 1; i < n; i++)
+    {
+        minX = min(minX, points[i].x);
+        minY = min(minY, points[i].x);
+        maxX = max(maxX, points[i].x);
+        maxY = max(maxY, points[i].y);
+    }
+
+    // width e height della scatola che racchiude i punti
+    double dx, dy;
+    dx = maxX - minX;
+    dy = maxY - minY;
+
+    // punti medi di questi lati
+    double midX, midY;
+    midX = (maxX + minX) / 2;
+    midY = (maxY + minY) / 2;
+
+    // questi punti li ho scelti un po' a caso
+    Point p1, p2, p3;
+    p1 = Point(minX - 2 * dx, minY - dy);
+    p2 = Point(minX - 2 * dx, maxY + 3 * dy);
+    p3 = Point(midX - 2 * dx, minY - dy);
+
+    Triangle tmax = Triangle( p1, p2, p3);
+
+
+
+
+
     bool flag = true;
     while (flag)
     {

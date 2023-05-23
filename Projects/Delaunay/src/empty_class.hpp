@@ -76,6 +76,7 @@ protected:
     Point p1,p2,p3;
 
 public:
+    Triangle() = default;
     Triangle(const Point& p1, const Point& p2, const Point& p3) : p1(p1), p2(p2), p3(p3){}
 
     // calcola il circocentro
@@ -97,7 +98,7 @@ private:
 
 
 public:
-    vector<Triangle> Delaunay(vector<Point>& points);
+    vector<Triangle> Delaunay(map<unsigned int, Point>& points);
 
 
 };
