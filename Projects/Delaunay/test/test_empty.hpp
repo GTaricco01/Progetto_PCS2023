@@ -60,4 +60,17 @@ TEST(MetodiTriangle, Collineari)
     EXPECT_FALSE(Collineari(ncoll1, ncoll2, ncoll3));
 }
 
+TEST(MetodiTriangolazione, Connect)
+{
+    Point p1 = Point(1,2);
+    Point p2 = Point(2,0);
+    Point p3 = Point(3,2);
+    Point d = Point(2,1);
+    Triangle t = Triangle(p1, p2, p3);
+    vector<Triangle> vecT = {Triangle(p1, p2, d),
+                             Triangle(p2, p3, d),
+                             Triangle(p3, p1, d)};
+
+    EXPECT_EQ(vecT, t.Connect(t,d));
+}
 #endif // __TEST_EMPTY_H

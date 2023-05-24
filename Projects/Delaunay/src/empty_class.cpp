@@ -101,14 +101,18 @@ map<unsigned int, Point> Reader::MakeVector(const string& input)
     return points;
 }
 
-void Triangulation::Connect(unsigned int& index, Triangle& t, Point& d)
+vector<Triangle> Triangle::Connect(Triangle& t, Point& d)
 {
-    index = 0;
-    t.p1;
+    vector<Triangle> vec;
+    vec.push_back(Triangle(t.p1, t.p2, d));
+    vec.push_back(Triangle(t.p2, t.p3, d));
+    vec.push_back(Triangle(t.p3, t.p1, d));
+
+    return vec;
 }
 
-// due cicli: while e for. While vero o falso controllo se il triangolo continua a non avere punti alò'interno del suo cirxocentro
-// con il For itero sui punti e controllo se stanno dentro il circocentro
+// due cicli: while e for. While vero o falso controllo se il triangolo continua a non avere punti all'interno del suo circocerchio
+// con il For itero sui punti e controllo se stanno dentro il circocerchio
 map<unsigned int, Triangle> Triangulation::Delaunay(map<unsigned int, Point>& points)
 {
     unsigned int n = points.size();
@@ -152,8 +156,9 @@ map<unsigned int, Triangle> Triangulation::Delaunay(map<unsigned int, Point>& po
         unsigned int i = 0;
         for (unsigned int j = 0; j < n; j++)
         {
-            if (triangles[i].IsInTheCircle(points[j]))
+            if (triangles[i].IsInTheCircle(points[j])) // se il triangolo non è regolare:
             {
+                Connect(triangles[i],points[j]);
                 /* togliere il triangolo corrente
                  * connettere i vertici del triangolo corrente con il punto points[j]
                  * aggiungere i triangoli creati a triangles (chiamo connect())
@@ -178,27 +183,5 @@ map<unsigned int, Triangle> Triangulation::Delaunay(map<unsigned int, Point>& po
     return triangles;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
+inline bool operator==(const Triangle &t1, const Triangle &t2) {}
+} // namespace ProjectLibrary

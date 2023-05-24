@@ -44,6 +44,7 @@ inline bool operator == (const Point& p1, const Point& p2)
     return (p1.x==p2.x && p1.y==p2.y);
 }
 
+
 struct Lato
 {
     Point p1, p2, lato;
@@ -97,7 +98,23 @@ public:
     // controllo counterclockwise
     bool isCounterClockWise();
 
+    vector<Triangle> Connect(Triangle& t, Point& d);
+
+    friend class Triangulation;
+
+
 };
+inline bool operator == (const Triangle& t1, const Triangle& t2)
+{
+    return t1.p1 == t2.p1 && t1.p2 == t2.p2 && t1.p3 == t2.p3;
+}
+
+inline bool operator == (const vector<Triangle>& t1, const vector<Triangle>& t2)
+{
+    return t1[0] == t2[0] && t1[1] == t2[1] && t1[2] == t2[2];
+}
+
+
 
 class Triangulation
 {
@@ -108,10 +125,9 @@ private:
 
 public:
     map<unsigned int, Triangle> Delaunay(map<unsigned int, Point>& points);
-    void Connect(unsigned int& index, Triangle& t, Point& d);
-    void Flip(Triangle& t1, Triangle& t2);
 
-    friend class Triangle;
+    void Flip(Triangle& t1, Triangle& t2);
+    void RemoveInvalid(map<unsigned int, Triangle> t);
 };
 
 }
