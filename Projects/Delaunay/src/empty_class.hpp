@@ -12,6 +12,7 @@ using namespace std;
 namespace ProjectLibrary
 {
 
+
 struct Point
 {
     double x, y;
@@ -21,12 +22,6 @@ struct Point
     }*/
 
 };
-
-// controlla se i punti sono collineari
-bool Collineari(const Point& p1, const Point& p2, const Point& p3, double tol = 1e-5);
-
-
-bool isCounter(const vector<Point> points);
 
 // override operatori di DIFFERENZA e PRODOTTO SCALARE e PRODOTTO ESTERNO tra oggetti Point
 inline Point operator - (const Point& p1, const Point& p2)
@@ -48,6 +43,20 @@ inline bool operator == (const Point& p1, const Point& p2)
 {
     return (p1.x==p2.x && p1.y==p2.y);
 }
+
+struct Lato
+{
+    Point p1, p2, lato;
+    Lato(Point& p1, Point& p2) : p1(p1), p2(p2), lato(p2-p1){}
+
+};
+
+// controlla se i punti sono collineari
+bool Collineari(const Point& p1, const Point& p2, const Point& p3, double tol = 1e-5);
+
+
+bool isCounter(const vector<Point> points);
+
 
 // creazione funzione inline NORMA per oggetto Point
 inline double norm(const Point& p)
@@ -90,17 +99,19 @@ public:
 
 };
 
-class Triangulation : Triangle
+class Triangulation
 {
 private:
-    vector<Triangle> triangles;
+    map<unsigned int, Triangle> triangles;
 
 
 
 public:
-    vector<Triangle> Delaunay(map<unsigned int, Point>& points);
+    map<unsigned int, Triangle> Delaunay(map<unsigned int, Point>& points);
+    void Connect(unsigned int& index, Triangle& t, Point& d);
+    void Flip(Triangle& t1, Triangle& t2);
 
-
+    friend class Triangle;
 };
 
 }

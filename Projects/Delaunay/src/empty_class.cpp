@@ -101,10 +101,15 @@ map<unsigned int, Point> Reader::MakeVector(const string& input)
     return points;
 }
 
+void Triangulation::Connect(unsigned int& index, Triangle& t, Point& d)
+{
+    index = 0;
+    t.p1;
+}
 
 // due cicli: while e for. While vero o falso controllo se il triangolo continua a non avere punti alò'interno del suo cirxocentro
 // con il For itero sui punti e controllo se stanno dentro il circocentro
-vector<Triangle> Triangulation::Delaunay(map<unsigned int, Point>& points)
+map<unsigned int, Triangle> Triangulation::Delaunay(map<unsigned int, Point>& points)
 {
     unsigned int n = points.size();
     // define super triangle
@@ -117,7 +122,7 @@ vector<Triangle> Triangulation::Delaunay(map<unsigned int, Point>& points)
     for (unsigned int i = 1; i < n; i++)
     {
         minX = min(minX, points[i].x);
-        minY = min(minY, points[i].x);
+        minY = min(minY, points[i].y);
         maxX = max(maxX, points[i].x);
         maxY = max(maxY, points[i].y);
     }
@@ -132,38 +137,36 @@ vector<Triangle> Triangulation::Delaunay(map<unsigned int, Point>& points)
     midX = (maxX + minX) / 2;
     midY = (maxY + minY) / 2;
 
-    // questi punti li ho scelti un po' a caso
+    // punti scelti fuori dal dataset in modo tale da assicurare che il super triangolo contenga tutti i punti
     Point p1, p2, p3;
-    p1 = Point(minX - 2 * dx, minY - dy);
-    p2 = Point(minX - 2 * dx, maxY + 3 * dy);
-    p3 = Point(midX - 2 * dx, minY - dy);
+    p1 = Point(minX - 2 * dx, minY - dy / 2);
+    p2 = Point(maxX + 2 * dx, minY - dy / 2);
+    p3 = Point(midX, 2 * maxY + dy);
+    // così ho la garanzia che ogni punto del dataset sia racchiuso dal triangolo
 
-    Triangle tmax = Triangle( p1, p2, p3);
-
-
-
-
-
-    bool flag = true;
-    while (flag)
+    Triangle tmax = Triangle(p1, p2, p3);
+    triangles.insert(pair<unsigned int, Triangle> (0,tmax));
+    bool flag = false;
+    while (!flag)
     {
-        Triangle t;
-        t = Triangle(Point(points[0].x,points[0].y),
-                     Point(points[1].x,points[1].y),
-                     Point(points[2].x,points[2].y));
-        for (unsigned int i = 3; i < points.size(); i++)
+        unsigned int i = 0;
+        for (unsigned int j = 0; j < n; j++)
         {
-
-
-            if (!t.isCounterClockWise())
+            if (triangles[i].IsInTheCircle(points[j]))
             {
-                ......
-                    flag = False;
+                /* togliere il triangolo corrente
+                 * connettere i vertici del triangolo corrente con il punto points[j]
+                 * aggiungere i triangoli creati a triangles (chiamo connect())
+                 *
+                 *
+                 * */
+                i++;
             }
-
         }
-
     }
+
+    // bisogna aggiornare gli indici mano a mano che triangles viene riempita e svuotata
+
 
 
 
