@@ -65,12 +65,9 @@ bool isCounter(const vector<Point> points);
 
 
 
-class Triangle
+struct Triangle
 {
-protected:
     Point p1,p2,p3;
-
-public:
     Triangle() = default;
     Triangle(const Point& p1, const Point& p2, const Point& p3) : p1(p1), p2(p2), p3(p3){}
 
@@ -94,6 +91,7 @@ inline bool operator == (const Triangle& t1, const Triangle& t2)
 {
     return t1.p1 == t2.p1 && t1.p2 == t2.p2 && t1.p3 == t2.p3;
 }
+
 
 inline bool operator == (const vector<Triangle>& t1, const vector<Triangle>& t2)
 {

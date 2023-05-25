@@ -116,9 +116,9 @@ map<unsigned int, Triangle> Triangulation::Delaunay(map<unsigned int, Point>& po
     dy = maxY - minY;
 
     // punti medi di questi lati
-    double midX, midY;
+    double midX;
     midX = (maxX + minX) / 2;
-    midY = (maxY + minY) / 2;
+
 
     // punti scelti fuori dal dataset in modo tale da assicurare che il super triangolo contenga tutti i punti
     Point p1, p2, p3;
@@ -142,11 +142,21 @@ map<unsigned int, Triangle> Triangulation::Delaunay(map<unsigned int, Point>& po
                 vector<Triangle> newTriangles = triangles[i].Connect(points[j]);
                 unsigned int numTriangles = triangles.size();
                 triangles.erase(i);
-                triangles.insert(i,newTriangles[0]);
+                triangles.insert(pair<unsigned int, Triangle> (i,newTriangles[0]));
                 //sto supponendo che i triangoli generati da connect non siano sovrpposti
                 //andrebbe un if con un controllo
-                triangles.insert(numTriangles,newTriangles[1]);
-                triangles.insert(numTriangles+1,newTriangles[0]);
+                triangles.insert(pair<unsigned int, Triangle> (numTriangles,newTriangles[1]));
+                triangles.insert(pair<unsigned int, Triangle> (numTriangles+1,newTriangles[2]));
+
+
+
+
+
+
+
+
+
+
 
                 /* togliere il triangolo corrente
                  * connettere i vertici del triangolo corrente con il punto points[j]
@@ -194,5 +204,5 @@ map<unsigned int, Point> Reader::MakeVector(const string& input)
     return points;
 }
 
-inline bool operator==(const Triangle &t1, const Triangle &t2) {}
+
 } // namespace ProjectLibrary

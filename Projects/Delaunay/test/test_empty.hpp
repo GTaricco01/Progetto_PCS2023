@@ -71,6 +71,38 @@ TEST(MetodiTriangolazione, Connect)
                              Triangle(p2, p3, d),
                              Triangle(p3, p1, d)};
 
-    EXPECT_EQ(vecT, t.Connect(t,d));
+    EXPECT_EQ(vecT, t.Connect(d));
 }
+
+TEST(ImportDati, MakeVector)
+{
+    string input = "/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/prova_punti.txt";
+    map<unsigned int, Point> vec_exact;
+    vec_exact[0] = Point(1,0);
+    vec_exact[1] = Point(0,1);
+    vec_exact[2] = Point(2,5);
+    vec_exact[3] = Point(-1,5);
+    Reader vec_try;
+
+
+    EXPECT_EQ(vec_exact, vec_try.MakeVector(input));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif // __TEST_EMPTY_H
