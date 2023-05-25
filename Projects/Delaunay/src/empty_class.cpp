@@ -12,25 +12,6 @@ using namespace ProjectLibrary;
 namespace ProjectLibrary
 {
 
-Point Triangle::CircoCentro()
-{
-    Point cc;
-    Point lato12, lato23, lato31;
-    lato12 = p2-p1;
-    lato23 = p3-p2;
-    lato31 = p1-p3;
-
-    double alpha, beta, gamma;
-    alpha = acos(lato12*lato31/(norm(lato12) * norm(lato31)));
-    beta  = acos(lato12*lato23/(norm(lato12) * norm(lato23)));
-    gamma = acos(lato23*lato31/(norm(lato23) * norm(lato31)));
-
-    cc=Point((p1.x*sin(2*alpha) + p2.x*sin(2*beta) + p3.x*sin(2*gamma))/(sin(2*alpha)+sin(2*beta)+sin(2*gamma)),
-             (p1.y*sin(2*alpha) + p2.y*sin(2*beta) + p3.y*sin(2*gamma))/(sin(2*alpha)+sin(2*beta)+sin(2*gamma)));
-
-    return cc;
-}
-
 bool Collineari(const Point &p1, const Point &p2, const Point &p3, double tol)
 {
     // sono collineari se l'area del triangolo è minore della tolleranza
@@ -41,18 +22,6 @@ bool Collineari(const Point &p1, const Point &p2, const Point &p3, double tol)
     prodotto = prod(lato12,lato31);
 
     return (abs(prodotto) <= tol);
-
-}
-bool Triangle::IsInTheCircle(const Point& d)
-{
-    // assuming points are ordered in counterclockwise order
-
-    Matrix<double, 3, 3> mat;
-    mat << p1.x-d.x, p1.y-d.y, (p1.x-d.x)*(p1.x-d.x) + (p1.y-d.y)*(p1.y-d.y),
-        p2.x-d.x, p2.y-d.y, (p2.x-d.x)*(p2.x-d.x) + (p2.y-d.y)*(p2.y-d.y),
-        p3.x-d.x, p3.y-d.y, (p3.x-d.x)*(p3.x-d.x) + (p3.y-d.y)*(p3.y-d.y);
-
-    return (mat.determinant() > 0);
 }
 
 // controllo su tutti i punti
@@ -70,6 +39,37 @@ bool isCounter(vector<Point> points)
     return (s < 0); // se è zero? boh
 }
 
+Point Triangle::CircoCentro()
+{
+    Point cc;
+    Point lato12, lato23, lato31;
+    lato12 = p2-p1;
+    lato23 = p3-p2;
+    lato31 = p1-p3;
+
+    double alpha, beta, gamma;
+    alpha = acos(lato12*lato31/(norm(lato12) * norm(lato31)));
+    beta  = acos(lato12*lato23/(norm(lato12) * norm(lato23)));
+    gamma = acos(lato23*lato31/(norm(lato23) * norm(lato31)));
+
+    cc=Point((p1.x*sin(2*alpha) + p2.x*sin(2*beta) + p3.x*sin(2*gamma))/(sin(2*alpha)+sin(2*beta)+sin(2*gamma)),
+               (p1.y*sin(2*alpha) + p2.y*sin(2*beta) + p3.y*sin(2*gamma))/(sin(2*alpha)+sin(2*beta)+sin(2*gamma)));
+
+    return cc;
+}
+
+bool Triangle::IsInTheCircle(const Point& d)
+{
+    // assuming points are ordered in counterclockwise order
+
+    Matrix<double, 3, 3> mat;
+    mat << p1.x-d.x, p1.y-d.y, (p1.x-d.x)*(p1.x-d.x) + (p1.y-d.y)*(p1.y-d.y),
+        p2.x-d.x, p2.y-d.y, (p2.x-d.x)*(p2.x-d.x) + (p2.y-d.y)*(p2.y-d.y),
+        p3.x-d.x, p3.y-d.y, (p3.x-d.x)*(p3.x-d.x) + (p3.y-d.y)*(p3.y-d.y);
+
+    return (mat.determinant() > 0);
+}
+
 // controllo sul singolo triangolo
 bool Triangle::isCounterClockWise()
 {
@@ -80,33 +80,12 @@ bool Triangle::isCounterClockWise()
     return (s < 0);
 }
 
-map<unsigned int, Point> Reader::MakeVector(const string& input)
-{
-    file.open(input);
-    getline(file,line);
-    while (!file.eof())
-    {
-        double id, x, y;
-        getline(file,line);
-        istringstream cast(line);
-
-        cast >> id >> x >> y;
-        points.insert(pair<unsigned int, Point> (id,Point(x,y)));
-    }
-    /*
-    for (Point p : points)
-    {
-        cout << "(" << p.x << ", " << p.y << ")" << endl;
-    }*/
-    return points;
-}
-
-vector<Triangle> Triangle::Connect(Triangle& t, Point& d)
+vector<Triangle> Triangle::Connect(const Point& d)
 {
     vector<Triangle> vec;
-    vec.push_back(Triangle(t.p1, t.p2, d));
-    vec.push_back(Triangle(t.p2, t.p3, d));
-    vec.push_back(Triangle(t.p3, t.p1, d));
+    vec.push_back(Triangle(p1, p2, d));
+    vec.push_back(Triangle(p2, p3, d));
+    vec.push_back(Triangle(p3, p1, d));
 
     return vec;
 }
@@ -150,15 +129,25 @@ map<unsigned int, Triangle> Triangulation::Delaunay(map<unsigned int, Point>& po
 
     Triangle tmax = Triangle(p1, p2, p3);
     triangles.insert(pair<unsigned int, Triangle> (0,tmax));
+
+    //Inizio Cicli
     bool flag = false;
     while (!flag)
     {
         unsigned int i = 0;
-        for (unsigned int j = 0; j < n; j++)
+        for (unsigned int j= 0; j < n; j++)
         {
             if (triangles[i].IsInTheCircle(points[j])) // se il triangolo non è regolare:
             {
-                Connect(triangles[i],points[j]);
+                vector<Triangle> newTriangles = triangles[i].Connect(points[j]);
+                unsigned int numTriangles = triangles.size();
+                triangles.erase(i);
+                triangles.insert(i,newTriangles[0]);
+                //sto supponendo che i triangoli generati da connect non siano sovrpposti
+                //andrebbe un if con un controllo
+                triangles.insert(numTriangles,newTriangles[1]);
+                triangles.insert(numTriangles+1,newTriangles[0]);
+
                 /* togliere il triangolo corrente
                  * connettere i vertici del triangolo corrente con il punto points[j]
                  * aggiungere i triangoli creati a triangles (chiamo connect())
@@ -181,6 +170,28 @@ map<unsigned int, Triangle> Triangulation::Delaunay(map<unsigned int, Point>& po
 
 
     return triangles;
+}
+
+
+map<unsigned int, Point> Reader::MakeVector(const string& input)
+{
+    file.open(input);
+    getline(file,line);
+    while (!file.eof())
+    {
+        double id, x, y;
+        getline(file,line);
+        istringstream cast(line);
+
+        cast >> id >> x >> y;
+        points.insert(pair<unsigned int, Point> (id,Point(x,y)));
+    }
+    /*
+    for (Point p : points)
+    {
+        cout << "(" << p.x << ", " << p.y << ")" << endl;
+    }*/
+    return points;
 }
 
 inline bool operator==(const Triangle &t1, const Triangle &t2) {}
