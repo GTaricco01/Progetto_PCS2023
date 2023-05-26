@@ -58,7 +58,7 @@ struct Lato
 };
 
 // controlla se i punti sono collineari
-bool Collineari(const Point& p1, const Point& p2, const Point& p3, double tol = 1e-5);
+bool Collinear(const Point& p1, const Point& p2, const Point& p3, double tol = 1e-5);
 
 
 bool isCounter(const vector<Point> points);
@@ -72,7 +72,7 @@ struct Triangle
     Triangle(const Point& p1, const Point& p2, const Point& p3) : p1(p1), p2(p2), p3(p3){}
 
     // calcola il circocentro
-    Point CircoCentro();
+    Point CircumCentre();
 
     // controlla se un nuovo punto q è nel circocerchio del triangolo
     bool IsInTheCircle(const Point& d);
@@ -82,7 +82,7 @@ struct Triangle
 
     vector<Triangle> Connect(const Point& d);
 
-    friend class Triangulation;
+
 
 };
 
@@ -102,13 +102,13 @@ inline bool operator == (const vector<Triangle>& t1, const vector<Triangle>& t2)
 class Triangulation
 {
 private:
-    map<unsigned int, Triangle> triangles;
+    vector<Triangle> triangles;
 
     void Flip(Triangle& t1, Triangle& t2);
     void RemoveInvalid();
 
 public:
-    map<unsigned int, Triangle> Delaunay(map<unsigned int, Point>& points);
+    vector<Triangle> Delaunay(vector<Point> &points);
 
 };
 
@@ -121,10 +121,10 @@ private:
     string input;
     string line;
     ifstream file;
-    map<unsigned int,Point> points;
+    vector<Point> points;
 public:
     Reader() = default;
-    map<unsigned int, Point> MakeVector(const string& input);
+    vector<Point> MakeVector(const string& input);
 };
 
 }

@@ -28,7 +28,7 @@ TEST(MetodiTriangle, CircoCentro)
     Triangle t = Triangle(p1, p2, p3);
     Point expected_center = Point(1., 1.);
 
-    EXPECT_EQ(expected_center, t.CircoCentro());
+    EXPECT_EQ(expected_center, t.CircumCentre());
 }
 
 // correttezza formula che distingue un punto nel cerchio da un punto fuori
@@ -56,8 +56,8 @@ TEST(MetodiTriangle, Collineari)
     Point ncoll2 = Point(2.,0.);
     Point ncoll3 = Point(0.,2.);
 
-    EXPECT_TRUE(Collineari(coll1, coll2, coll3));
-    EXPECT_FALSE(Collineari(ncoll1, ncoll2, ncoll3));
+    EXPECT_TRUE(Collinear(coll1, coll2, coll3));
+    EXPECT_FALSE(Collinear(ncoll1, ncoll2, ncoll3));
 }
 
 TEST(MetodiTriangolazione, Connect)
@@ -77,18 +77,40 @@ TEST(MetodiTriangolazione, Connect)
 TEST(ImportDati, MakeVector)
 {
     string input = "/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/prova_punti.txt";
-    map<unsigned int, Point> vec_exact;
-    vec_exact[0] = Point(1,0);
-    vec_exact[1] = Point(0,1);
-    vec_exact[2] = Point(2,5);
-    vec_exact[3] = Point(-1,5);
+    vector<Point> vec_exact ={
+        {1,0},
+        {0,1},
+        {2,5},
+        {-1,5}
+    };
     Reader vec_try;
 
 
     EXPECT_EQ(vec_exact, vec_try.MakeVector(input));
 }
 
+TEST(Triangulate, Delaunay)
+{
+    vector<Point> points = {
+        {1,1},
+        {2,3},
+        {4,2},
+        {3,5},
+        {6,4}
+    };
+    Triangulation t;
 
+    vector<Triangle> my_vec ={
+        Triangle(Point(1,1), Point(4,2), Point(2,3)),
+        Triangle(Point(4,2), Point(3,5), Point(2,3)),
+        Triangle(Point(4,2), Point(6,4), Point(3,5))
+    };
+
+    EXPECT_EQ(my_vec, t.Delaunay(points));
+
+
+
+}
 
 
 
