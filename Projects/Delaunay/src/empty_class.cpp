@@ -142,7 +142,7 @@ map<unsigned int, Triangle> Triangulation::Delaunay(map<unsigned int, Point>& po
                 vector<Triangle> newTriangles = triangles[i].Connect(points[j]);
                 unsigned int numTriangles = triangles.size();
                 triangles.erase(i);
-                triangles.insert(i,newTriangles[0]);
+                triangles.insert(pair<unsigned int, Triangle> (i,newTriangles[0]));
                 //sto supponendo che i triangoli generati da connect non siano sovrpposti
                 //andrebbe un if con un controllo
                 triangles.insert(numTriangles,newTriangles[1]);
