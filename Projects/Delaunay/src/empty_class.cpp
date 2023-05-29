@@ -136,29 +136,10 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
         {
             if (!Collinear(t.p1, t.p2, t.p3))
             {
-<<<<<<< HEAD
-                vector<Triangle> newTriangles = triangles[i].Connect(points[j]);
-                unsigned int numTriangles = triangles.size();
-                triangles.erase(i);
-                triangles.insert(pair<unsigned int, Triangle> (i,newTriangles[0]));
-                //sto supponendo che i triangoli generati da connect non siano sovrpposti
-                //andrebbe un if con un controllo
-                triangles.insert(numTriangles,newTriangles[1]);
-                triangles.insert(numTriangles+1,newTriangles[0]);
-
-                /* togliere il triangolo corrente
-                 * connettere i vertici del triangolo corrente con il punto points[j]
-                 * aggiungere i triangoli creati a triangles (chiamo connect())
-                 *
-                 *
-                 * */
-                i++;
-=======
                 if (t.IsInTheCircle(p))
                 {
                     invalidTriangles.push_back(t);
                 }
->>>>>>> e941eadc1a19fdf1c22ccbb3a65d765f059bdf01
             }
         }
 
