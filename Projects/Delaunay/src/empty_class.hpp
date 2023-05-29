@@ -81,9 +81,6 @@ struct Triangle
     bool isCounterClockWise();
 
     vector<Triangle> Connect(const Point& d);
-
-
-
 };
 
 
@@ -98,18 +95,14 @@ inline bool operator == (const vector<Triangle>& t1, const vector<Triangle>& t2)
     return t1[0] == t2[0] && t1[1] == t2[1] && t1[2] == t2[2];
 }
 
-
 class Triangulation
 {
 private:
     vector<Triangle> triangles;
-
-    void Flip(Triangle& t1, Triangle& t2);
-    void RemoveInvalid();
+    bool Flip(Triangle& t1, Triangle& t2);
 
 public:
     vector<Triangle> Delaunay(vector<Point> &points);
-
 };
 
 

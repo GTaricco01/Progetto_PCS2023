@@ -111,19 +111,20 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
     }
 
     // width e height della scatola che racchiude i punti
-    double dx, dy;
+    double dx, dy, midX;
     dx = maxX - minX;
     dy = maxY - minY;
-
-    // punti medi di questi lati
-    double midX;
     midX = (maxX + minX) / 2;
-
 
     // punti scelti fuori dal dataset in modo tale da assicurare che il super triangolo contenga tutti i punti
     Point p1(minX - 2 * dx, minY - dy / 2);
     Point p2(maxX + 2 * dx, minY - dy / 2);
     Point p3(midX, 2 * maxY + dy);
+    Triangle tgrosso(p1, p2, p3);
+
+    cout << "(" << tgrosso.p1.x << ", " << tgrosso.p1.y << ")" << endl;
+    cout << "(" << tgrosso.p2.x << ", " << tgrosso.p2.y << ")" << endl;
+    cout << "(" << tgrosso.p3.x << ", " << tgrosso.p3.y << ")" << endl;
 
     // così ho la garanzia che ogni punto del dataset sia racchiuso dal triangolo
     if (!Collinear(p1,p2,p3))
@@ -154,14 +155,31 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
 
         // remove invalid triangles from the triangulation
         triangles.erase(remove_if(triangles.begin(), triangles.end(),
-                                  [&](Triangle& t)
+                                  [&](const Triangle& t)
                                   {
                                     return find(invalidTriangles.begin(),invalidTriangles.end(),t) != invalidTriangles.end();
                                   }), triangles.end());
-
+        pair<Point,Point> aux;
         for (const auto& edge : boundaryEdges)
         {
-            triangles.emplace_back(edge.first, edge.second, p);
+            if (edge == aux)
+            {
+                if ()
+                {
+
+                }
+            }
+            /*if(edge è in comune con due triangoli)
+            {
+                if(la somma degli angoli opposti all'edge <= 180°)
+                {
+                    allora fai il push back perché il triangolo è valido
+                }
+            }
+            */
+
+            triangles.push_back(Triangle(edge.first, edge.second, p));
+            aux = edge;
         }
     }
     triangles.erase(remove_if(triangles.begin(), triangles.end(),
