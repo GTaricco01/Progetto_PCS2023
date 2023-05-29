@@ -90,8 +90,57 @@ vector<Triangle> Triangle::Connect(const Point& d)
     return vec;
 }
 
-// due cicli: while e for. While vero o falso controllo se il triangolo continua a non avere punti all'interno del suo circocerchio
-// con il For itero sui punti e controllo se stanno dentro il circocerchio
+bool Triangulation::TrianglesShareEdge(Triangle& t1, Triangle& t2)
+{
+    unsigned int shared = 0;
+    if (t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
+        shared++;
+    if (t1.p2 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
+        shared++;
+    if (t1.p3 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
+        shared++;
+    return shared == 2;
+}
+
+
+
+
+void Triangulation::Flip(Triangle& t1, Triangle& t2)
+{
+    Point shared1, shared2, nshared1, nshared2;
+
+    if (t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
+    {
+        shared1 = t1.p1;
+        shared2 = t1.p2 == t2.p1 || t1.p2 == t2.p2 || t1.p2 == t2.p3 ? t1.p2 : t1.p3;
+        nshared1 = t2.p1;
+        nshared2 = t2.p2 == shared2 ? t2.p3 : t2.p2;
+    }
+    else if (t1.p2 == t2.p1 || t1.p2 == t2.p2 || t1.p2 == t2.p3)
+    {
+        shared1 = t1.p2;
+        shared2 = t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3 ? t1.p1 : t1.p3;
+        nshared1 = t2.p1;
+        nshared2 = t2.p2 == shared2 ? t2.p3 : t2.p2;
+    }
+    else
+    {
+        shared1 = t1.p3;
+        shared2 = t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3 ? t1.p1 : t1.p2;
+        nshared1 = t2.p1;
+        nshared2 = t2.p2 == shared2 ? t2.p3 : t2.p2;
+    }
+
+
+    t1 = Triangle(shared1, shared2, nshared1);
+    t2 = Triangle(shared1, nshared1, nshared2);
+
+
+}
+
+
+
+
 vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
 {
     unsigned int n = points.size();
@@ -120,11 +169,6 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
     Point p1(minX - 2 * dx, minY - dy / 2);
     Point p2(maxX + 2 * dx, minY - dy / 2);
     Point p3(midX, 2 * maxY + dy);
-    Triangle tgrosso(p1, p2, p3);
-
-    cout << "(" << tgrosso.p1.x << ", " << tgrosso.p1.y << ")" << endl;
-    cout << "(" << tgrosso.p2.x << ", " << tgrosso.p2.y << ")" << endl;
-    cout << "(" << tgrosso.p3.x << ", " << tgrosso.p3.y << ")" << endl;
 
     // così ho la garanzia che ogni punto del dataset sia racchiuso dal triangolo
     if (!Collinear(p1,p2,p3))
@@ -162,13 +206,7 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
         pair<Point,Point> aux;
         for (const auto& edge : boundaryEdges)
         {
-            if (edge == aux)
-            {
-                if ()
-                {
 
-                }
-            }
             /*if(edge è in comune con due triangoli)
             {
                 if(la somma degli angoli opposti all'edge <= 180°)

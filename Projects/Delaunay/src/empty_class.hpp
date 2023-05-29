@@ -99,10 +99,12 @@ class Triangulation
 {
 private:
     vector<Triangle> triangles;
-    bool Flip(Triangle& t1, Triangle& t2);
 
 public:
     vector<Triangle> Delaunay(vector<Point> &points);
+    void Flip(Triangle& t1, Triangle& t2);
+    bool TrianglesShareEdge(Triangle& t1, Triangle& t2);
+
 };
 
 
