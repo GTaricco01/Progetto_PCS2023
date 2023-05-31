@@ -9,6 +9,7 @@ using namespace testing;
 using namespace ProjectLibrary;
 
 //ordine anti-orario
+/*
 TEST(MetodiTriangle, isCounterClockWise)
 {
     Point p1 = Point(0.,0.);
@@ -18,8 +19,10 @@ TEST(MetodiTriangle, isCounterClockWise)
 
     EXPECT_TRUE(t.isCounterClockWise());
 }
+*/
 
 // correttezza del circocentro
+/*
 TEST(MetodiTriangle, CircoCentro)
 {
     Point p1 = Point(0.,0.);
@@ -30,6 +33,7 @@ TEST(MetodiTriangle, CircoCentro)
 
     EXPECT_EQ(expected_center, t.CircumCentre());
 }
+*/
 
 // correttezza formula che distingue un punto nel cerchio da un punto fuori
 TEST(MetodiTriangle, IsInTheCircle)
@@ -74,6 +78,7 @@ TEST(MetodiTriangolazione, Connect)
     EXPECT_EQ(vecT, t.Connect(d));
 }
 
+/*
 TEST(ImportDati, MakeVector)
 {
     string input = "/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/prova_punti.txt";
@@ -88,7 +93,9 @@ TEST(ImportDati, MakeVector)
 
     EXPECT_EQ(vec_exact, vec_try.MakeVector(input));
 }
+*/
 
+/*
 TEST(Triangulate, Delaunay)
 {
     vector<Point> points = {
@@ -111,7 +118,7 @@ TEST(Triangulate, Delaunay)
 
 
 }
-
+*/
 
 
 

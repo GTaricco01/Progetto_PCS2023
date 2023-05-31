@@ -3,7 +3,8 @@
 
 #include "iostream"
 #include <cmath>
-#include "Eigen/Eigen"
+#include <fstream>
+#include "Eigen\Eigen"
 
 using namespace std;
 
@@ -55,12 +56,13 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3);
 class Triangle
 {
 private:
+    int id;
     Point p1, p2, p3;
     array<double,3> angles;
-    array<Triangle*,3> adjacent = {nullptr, nullptr, nullptr};
+    array<int,3> adjacentIds = {-1, -1 , -1};
 
 public:
-    Triangle(const Point& _p1, const Point& _p2, const Point& _p3);
+    Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3);
 
     // calcola il circocentro
     bool IsInTheCircle(const Point& d);
@@ -68,7 +70,7 @@ public:
     bool Verify();
 
     vector<Triangle> Connect(const Point& d);
-<<<<<<< HEAD
+    vector<Triangle> Flip(const unsigned int& i, const unsigned int& j);
 
     //friend ostream& operator << (ostream& os, const Triangle& t);
     friend bool operator == (const Triangle& t1, const Triangle& t2);
@@ -102,11 +104,10 @@ private:
     vector<Triangle> triangles;
 
 public:
-    void Delaunay(vector<Point> &points);
+    //void Delaunay(vector<Point> &points);
     //friend ostream& operator << (ostream& os, const Triangulation& tt);
     vector<Triangle> Delaunay(vector<Point> &points);
-    void Flip(Triangle& t1, Triangle& t2);
-    bool TrianglesShareEdge(Triangle& t1, Triangle& t2);
+    bool TrianglesShareEdge(Triangle& t1, Triangle& t2, array<Point,2>& point);
 
 };
 
@@ -119,7 +120,7 @@ ostream& operator << (ostream& os, const Triangulation& tt)
 }
 */
 
-/* classe Reader: legge da file di input e crea vettore in cui sono memorizzati gli oggetti Point
+//classe Reader: legge da file di input e crea vettore in cui sono memorizzati gli oggetti Point
 class Reader
 {
 private:
@@ -131,7 +132,7 @@ public:
     Reader() = default;
     vector<Point> MakeVector(const string& input);
 };
-*/
+
 
 }
 #endif // __EMPTY_H
