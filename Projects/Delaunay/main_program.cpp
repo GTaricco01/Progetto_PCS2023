@@ -22,6 +22,7 @@ int main() {
     Triangulation t;
     t.Delaunay(points);
 
+    /*
     Triangle triangle1 = { { 1.0, 1.0 }, { 2.0, 3.0 }, { 4.0, 2.0 } };
     Triangle triangle2 = { { 2.0, 3.0 }, { 4.0, 2.0 }, { 3.0, 5.0 } };
     Triangulation tt;
@@ -40,6 +41,10 @@ int main() {
     } else {
         std::cout << "Triangles do not share an edge. Cannot perform edge flip.\n";
     }
+<<<<<<< HEAD
 
+=======
+*/
+>>>>>>> c3283dd7936ab48066636671a001e371e020e6bf
     return 0;
 }

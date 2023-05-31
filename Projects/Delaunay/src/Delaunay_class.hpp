@@ -1,11 +1,10 @@
 #ifndef __EMPTY_H
 #define __EMPTY_H
 
-#include <iostream>
+#include "iostream"
 #include <cmath>
 #include <fstream>
-#include <sstream>
-#include "map"
+#include "Eigen/Eigen"
 
 using namespace std;
 
@@ -17,9 +16,6 @@ struct Point
 {
     double x, y;
     Point(double x = 0, double y = 0) : x(x), y(y){}
-    /*{
-        cout << "Coordinates are: (" << x << ", " << y << ")" << endl;
-    }*/
 
 };
 
@@ -50,38 +46,49 @@ inline double norm(const Point& p)
     return sqrt(p.x*p.x + p.y*p.y);
 }
 
-struct Lato
-{
-    Point p1, p2, lato;
-    Lato(Point& p1, Point& p2) : p1(p1), p2(p2), lato(p2-p1){}
-
-};
 
 // controlla se i punti sono collineari
-bool Collinear(const Point& p1, const Point& p2, const Point& p3, double tol = 1e-5);
+bool Collinear(const Point& p1, const Point& p2, const Point& p3);
+
+bool isCounter(const Point& p1, const Point& p2, const Point& p3);
 
 bool isCounter(const vector<Point> points);
 
 
 
-struct Triangle
+class Triangle
 {
-    Point p1,p2,p3;
+private:
+    int id;
+    Point p1, p2, p3;
+    array<double,3> angles;
+    array<int,3> adjacentIds = {-1, -1 , -1};
+
+public:
     Triangle() = default;
-    Triangle(const Point& p1, const Point& p2, const Point& p3) : p1(p1), p2(p2), p3(p3){}
+    Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3);
 
     // calcola il circocentro
-    Point CircumCentre();
-
-    // controlla se un nuovo punto q è nel circocerchio del triangolo
     bool IsInTheCircle(const Point& d);
-
-    // controllo counterclockwise
-    bool isCounterClockWise();
+    bool IsInTheTriangle(const Point& d);
+    bool Verify();
 
     vector<Triangle> Connect(const Point& d);
+    vector<Triangle> Flip(const unsigned int& i, const unsigned int& j);
+
+    //friend ostream& operator << (ostream& os, const Triangle& t);
+    friend bool operator == (const Triangle& t1, const Triangle& t2);
+    friend class Triangulation;
+    
 };
 
+/*
+ostream& operator << (ostream& os, const Triangle& t)
+{
+    os << "(" << t.p1.x << ", " << t.p1.y << ")";
+    return os;
+}
+*/
 
 inline bool operator == (const Triangle& t1, const Triangle& t2)
 {
@@ -94,21 +101,30 @@ inline bool operator == (const vector<Triangle>& t1, const vector<Triangle>& t2)
     return t1[0] == t2[0] && t1[1] == t2[1] && t1[2] == t2[2];
 }
 
+
 class Triangulation
 {
 private:
     vector<Triangle> triangles;
 
 public:
+    //void Delaunay(vector<Point> &points);
+    //friend ostream& operator << (ostream& os, const Triangulation& tt);
     vector<Triangle> Delaunay(vector<Point> &points);
-    void Flip(Triangle& t1, Triangle& t2);
-    bool TrianglesShareEdge(Triangle& t1, Triangle& t2);
+    bool TrianglesShareEdge(Triangle& t1, Triangle& t2, array<Point,2>& point);
 
 };
 
+/*
+ostream& operator << (ostream& os, const Triangulation& tt)
+{
+    for (const Triangle& t : tt.triangles)
+        os<<t<<endl;
+    return os;
+}
+*/
 
-
-// classe Reader: legge da file di input e crea vettore in cui sono memorizzati gli oggetti Point
+//classe Reader: legge da file di input e crea vettore in cui sono memorizzati gli oggetti Point
 class Reader
 {
 private:
@@ -121,5 +137,7 @@ public:
     vector<Point> MakeVector(const string& input);
 };
 
+
 }
 #endif // __EMPTY_H
+
