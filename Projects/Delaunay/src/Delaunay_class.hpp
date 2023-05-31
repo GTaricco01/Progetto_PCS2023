@@ -111,7 +111,7 @@ public:
     //void Delaunay(vector<Point> &points);
     //friend ostream& operator << (ostream& os, const Triangulation& tt);
     vector<Triangle> Delaunay(vector<Point> &points);
-    bool TrianglesShareEdge(Triangle& t1, Triangle& t2, array<Point,2>& point);
+    bool TrianglesShareEdge(const Triangle& t1, const Triangle& t2, array<Point,2>& point);
 
 };
 

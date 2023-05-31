@@ -28,7 +28,7 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
     return (s >= 0);
 }
 
-Triangle::Triangle(const Point& _p1, const Point& _p2, const Point& _p3): id(id)
+Triangle::Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3): id(id)
 {
     // il costruttore conrolla in anticipo se i punti sono collineari e li dispone già in senso antiorario
     if(!Collinear(_p1, _p2, _p3))
@@ -63,8 +63,8 @@ bool Triangle::IsInTheTriangle(const Point& d)
 {
     return (isCounter(p1, p2, d) && isCounter(p2, p3, d) && isCounter(p3, p1, d));
 }
-
-vector<Triangle> Triangle::Connect(const Point& d)
+// da definire id1 id2 id3 etc
+/*vector<Triangle> Triangle::Connect(const Point& d)
 {
     vector<Triangle> newTriangles;
     Triangle t1(id1, p1, p2, d);
@@ -88,23 +88,23 @@ vector<Triangle> Triangle::Connect(const Point& d)
     newTriangles.push_back(t3);
     return newTriangles;
 }
-
+*/
 bool Triangulation::TrianglesShareEdge(const Triangle& t1, const Triangle& t2, array<Point,2>& point)
 {
     unsigned int shared = 0;
     if (t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
     {
-        point[shared] = p1;
+        point[shared] = t1.p1;
         shared++;
     }
     if (t1.p2 == t2.p1 || t1.p2 == t2.p2 || t1.p2 == t2.p3)
     {
-        point[shared] = p2;
+        point[shared] = t1.p2;
         shared++;
     }
     if (t1.p3 == t2.p1 || t1.p3 == t2.p2 || t1.p3 == t2.p3)
     {
-        point[shared] = p3;
+        point[shared] = t1.p3;
         shared++;
     }
     return shared == 2;
