@@ -60,7 +60,6 @@ struct Lato
 // controlla se i punti sono collineari
 bool Collinear(const Point& p1, const Point& p2, const Point& p3, double tol = 1e-5);
 
-
 bool isCounter(const vector<Point> points);
 
 

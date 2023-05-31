@@ -1,0 +1,4 @@
+#ifndef DELAUNAY_TEST_HPP
+#define DELAUNAY_TEST_HPP
+
+#endif // DELAUNAY_TEST_HPP

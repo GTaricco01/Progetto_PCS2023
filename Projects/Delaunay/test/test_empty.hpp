@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-#include "empty_class.hpp"
+#include "Delaunay_class.hpp"
 
 using namespace testing;
 using namespace ProjectLibrary;

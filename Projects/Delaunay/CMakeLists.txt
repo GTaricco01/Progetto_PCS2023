@@ -55,7 +55,7 @@ list(APPEND delaunay_test_INCLUDE ${delaunay_test_includes})
 ################################################################################
 
 add_executable(delaunay_test
-	main_test.cpp
+        Delaunay_main_test.cpp
 	${delaunay_test_HEADERS}
 	${delaunay_test_INCLUDE}
 	${delaunay_SOURCES}
@@ -69,7 +69,7 @@ target_compile_options(delaunay_test PUBLIC -fPIC)
 gtest_discover_tests(delaunay_test)
 
 add_executable(delaunay_program
-	main_program.cpp
+        Delaunay_main_program.cpp
 	${delaunay_SOURCES}
     ${delaunay_HEADERS})
 
