@@ -68,6 +68,7 @@ public:
     bool Verify();
 
     vector<Triangle> Connect(const Point& d);
+<<<<<<< HEAD
 
     //friend ostream& operator << (ostream& os, const Triangle& t);
     friend bool operator == (const Triangle& t1, const Triangle& t2);
@@ -89,6 +90,12 @@ inline bool operator == (const Triangle& t1, const Triangle& t2)
 }
 
 
+inline bool operator == (const vector<Triangle>& t1, const vector<Triangle>& t2)
+{
+    return t1[0] == t2[0] && t1[1] == t2[1] && t1[2] == t2[2];
+}
+
+
 class Triangulation
 {
 private:
@@ -97,6 +104,9 @@ private:
 public:
     void Delaunay(vector<Point> &points);
     //friend ostream& operator << (ostream& os, const Triangulation& tt);
+    vector<Triangle> Delaunay(vector<Point> &points);
+    void Flip(Triangle& t1, Triangle& t2);
+    bool TrianglesShareEdge(Triangle& t1, Triangle& t2);
 
 };
 

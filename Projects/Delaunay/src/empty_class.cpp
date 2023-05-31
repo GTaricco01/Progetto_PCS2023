@@ -87,9 +87,58 @@ vector<Triangle> Triangle::Connect(const Point& d)
     return newTriangles;
 }
 
-// due cicli: while e for. While vero o falso controllo se il triangolo continua a non avere punti all'interno del suo circocerchio
-// con il For itero sui punti e controllo se stanno dentro il circocerchio
-void Triangulation::Delaunay(vector<Point>& points)
+bool Triangulation::TrianglesShareEdge(Triangle& t1, Triangle& t2)
+{
+    unsigned int shared = 0;
+    if (t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
+        shared++;
+    if (t1.p2 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
+        shared++;
+    if (t1.p3 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
+        shared++;
+    return shared == 2;
+}
+
+
+
+
+void Triangulation::Flip(Triangle& t1, Triangle& t2)
+{
+    Point shared1, shared2, nshared1, nshared2;
+
+    if (t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
+    {
+        shared1 = t1.p1;
+        shared2 = t1.p2 == t2.p1 || t1.p2 == t2.p2 || t1.p2 == t2.p3 ? t1.p2 : t1.p3;
+        nshared1 = t2.p1;
+        nshared2 = t2.p2 == shared2 ? t2.p3 : t2.p2;
+    }
+    else if (t1.p2 == t2.p1 || t1.p2 == t2.p2 || t1.p2 == t2.p3)
+    {
+        shared1 = t1.p2;
+        shared2 = t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3 ? t1.p1 : t1.p3;
+        nshared1 = t2.p1;
+        nshared2 = t2.p2 == shared2 ? t2.p3 : t2.p2;
+    }
+    else
+    {
+        shared1 = t1.p3;
+        shared2 = t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3 ? t1.p1 : t1.p2;
+        nshared1 = t2.p1;
+        nshared2 = t2.p2 == shared2 ? t2.p3 : t2.p2;
+    }
+
+
+    t1 = Triangle(shared1, shared2, nshared1);
+    t2 = Triangle(shared1, nshared1, nshared2);
+
+
+}
+
+
+
+
+vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
 {
     unsigned int n = points.size();
     // define super triangle
@@ -108,14 +157,10 @@ void Triangulation::Delaunay(vector<Point>& points)
     }
 
     // width e height della scatola che racchiude i punti
-    double dx, dy;
+    double dx, dy, midX;
     dx = maxX - minX;
     dy = maxY - minY;
-
-    // punti medi di questi lati
-    double midX;
     midX = (maxX + minX) / 2;
-
 
     // punti scelti fuori dal dataset in modo tale da assicurare che il super triangolo contenga tutti i punti
     Point p1(minX - 2 * dx, minY - dy / 2);
@@ -143,6 +188,39 @@ void Triangulation::Delaunay(vector<Point>& points)
                     triangles.push_back(newTriangles[1]);
                     triangles.push_back(newTriangles[2]);
                 }
+            }
+        }
+
+        // find the boundary edges of the polygon formed by invalid triangles
+        vector<pair<Point,Point>> boundaryEdges;
+        for (const Triangle& t : invalidTriangles)
+        {
+            boundaryEdges.emplace_back(t.p1, t.p2);
+            boundaryEdges.emplace_back(t.p2, t.p3);
+            boundaryEdges.emplace_back(t.p3, t.p1);
+        }
+
+        // remove invalid triangles from the triangulation
+        triangles.erase(remove_if(triangles.begin(), triangles.end(),
+                                  [&](const Triangle& t)
+                                  {
+                                    return find(invalidTriangles.begin(),invalidTriangles.end(),t) != invalidTriangles.end();
+                                  }), triangles.end());
+        pair<Point,Point> aux;
+        for (const auto& edge : boundaryEdges)
+        {
+
+            /*if(edge è in comune con due triangoli)
+            {
+                if(la somma degli angoli opposti all'edge <= 180°)
+                {
+                    allora fai il push back perché il triangolo è valido
+                }
+            }
+            */
+
+            triangles.push_back(Triangle(edge.first, edge.second, p));
+            aux = edge;
         }
     }
     triangles.erase(remove_if(triangles.begin(), triangles.end(),
