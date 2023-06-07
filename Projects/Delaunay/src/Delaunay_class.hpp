@@ -59,20 +59,19 @@ bool isCounter(const vector<Point> points);
 class Triangle
 {
 private:
-    int id;
+    //int id;
     Point p1, p2, p3;
     array<double,3> angles;
-    array<int,3> adjacentIds = {-1, -1 , -1};
+    //array<int,3> adjacentIds = {-1, -1 , -1}; // se il triangolo di id 5 ha lato adiacente quello opposto al vertice P2 ==> adjacentIds = {-1,5,-1}
 
 public:
     Triangle() = default;
-    Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3);
+    Triangle(const Point& _p1, const Point& _p2, const Point& _p3);
 
     // calcola il circocentro
     bool IsInTheCircle(const Point& d);
     bool IsInTheTriangle(const Point& d);
     bool Verify();
-
     vector<Triangle> Connect(const Point& d);
     vector<Triangle> Flip(const unsigned int& i, const unsigned int& j);
 
@@ -125,17 +124,6 @@ ostream& operator << (ostream& os, const Triangulation& tt)
 */
 
 //classe Reader: legge da file di input e crea vettore in cui sono memorizzati gli oggetti Point
-class Reader
-{
-private:
-    string input;
-    string line;
-    ifstream file;
-    vector<Point> points;
-public:
-    Reader() = default;
-    vector<Point> MakeVector(const string& input);
-};
 
 
 }
