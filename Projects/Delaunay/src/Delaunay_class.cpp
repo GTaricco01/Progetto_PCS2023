@@ -11,13 +11,13 @@ using namespace ProjectLibrary;
 namespace ProjectLibrary
 {
 
-bool Collinear(const Point &p1, const Point &p2, const Point &p3)
+bool Collinear(const Point &p1, const Point &p2, const Point &p3, const double& tol)
 {
     // sono collineari se l'area del triangolo è minore della tolleranza
     double s;
     s = prod(p2-p1, p3-p1);
 
-    return (s == 0);
+    return (abs(s) <= tol);
 }
 
 // controllo su tutti i punti
@@ -28,10 +28,11 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
     return (s >= 0);
 }
 
-Triangle::Triangle(const Point& _p1, const Point& _p2, const Point& _p3)
+Triangle::Triangle(const Point& _p1, const Point& _p2, const Point& _p3):
+    p1(_p1), p2(_p2), p3(_p3)
 {
-    // il costruttore conrolla in anticipo se i punti sono collineari e li dispone già in senso antiorario
-    if(!Collinear(_p1, _p2, _p3))
+    // il costruttore controlla in anticipo se i punti sono collineari e li dispone già in senso antiorario
+    /**if(!Collinear(_p1, _p2, _p3))
     {
         if(isCounter(_p1,_p2,_p3))
         {
@@ -41,13 +42,15 @@ Triangle::Triangle(const Point& _p1, const Point& _p2, const Point& _p3)
         {
             p1=_p1; p2=_p3; p3=_p2;
         }
-    }
-    angles[0] = acos((p2-p1)*(p3-p1)/(norm(p2-p1)*norm(p3-p1)));
+    }**/
+
+    //p1=_p1; p2=_p2; p3=_p3;
+    /*angles[0] = acos((p2-p1)*(p3-p1)/(norm(p2-p1)*norm(p3-p1)));
     angles[1] = acos((p3-p2)*(p3-p1)/(norm(p1-p2)*norm(p3-p1)));
-    angles[2] = acos((p1-p3)*(p3-p1)/(norm(p2-p3)*norm(p3-p1)));
+    angles[2] = acos((p1-p3)*(p3-p1)/(norm(p2-p3)*norm(p3-p1)));*/
 }
 
-bool Triangle::IsInTheCircle(const Point& d)
+bool Triangle::IsInTheCircle(const Point& d) const
 {
     // assuming points are ordered in counterclockwise order
 
@@ -59,7 +62,7 @@ bool Triangle::IsInTheCircle(const Point& d)
     return (mat.determinant() > 0);
 }
 
-bool Triangle::IsInTheTriangle(const Point& d)
+bool Triangle::IsInTheTriangle(const Point& d) const
 {
     return (isCounter(p1, p2, d) && isCounter(p2, p3, d) && isCounter(p3, p1, d));
 }
@@ -89,8 +92,9 @@ bool Triangle::IsInTheTriangle(const Point& d)
     return newTriangles;
 }
 */
-bool Triangulation::TrianglesShareEdge(const Triangle& t1, const Triangle& t2, array<Point,2>& point)
+bool Triangulation::TrianglesShareEdge(const Triangle& t1, const Triangle& t2)
 {
+    vector<Point> point;
     unsigned int shared = 0;
     if (t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
     {
@@ -122,7 +126,7 @@ vector<Triangle> Triangle::Flip(const unsigned int& i,const unsigned int& j)
 
 
 
-vector<Triangle> Triangulation::Delaunay(vector<Point>& points) // delaunator
+vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
 {
     unsigned int n = points.size();
     // define super triangle
@@ -156,10 +160,121 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points) // delaunator
 
     for (const Point& p : points)
     {
+        //unsigned int n = triangles.size();
+        for (Triangle t : triangles)
+        {
+            if (t.IsInTheCircle(p))
+            {
+                if (t.IsInTheTriangle(p))
+                {
+                    triangles.push_back(Triangle(t.p1,t.p2,p));
+                    triangles.push_back(Triangle(t.p2, t.p3,p));
+                    triangles.push_back(Triangle(t.p3, t.p1,p));
+                    triangles.erase(find(triangles.begin(), triangles.end(), t));
+
+                    /*for (Triangle& t1 : triangles)
+                    {
+                        if (!(t == t1))
+                        {
+                            if (TrianglesShareEdge(t,t1))
+                            {
+                                Flip()
+                            }
+                        }
+                    }*/
+                }
+            }
+        }
+
+    }
+
+    for (const Triangle& t : triangles)
+    {
+
+        cout << "(" << t.p1.x << "," << t.p1.y << ") ";
+        cout << "(" << t.p2.x << "," << t.p2.y << ") ";
+        cout << "(" << t.p3.x << "," << t.p3.y << ")" << endl;
+    }
+
+/* creare un metodo per verificare che due triangoli abbiano un lato in comune
+ * for (triangolo1 : triangles)
+ * {
+ *     for (triangolo2 : triangles)
+ *     {
+ *         if (triangolo1 != triangolo2)
+ *         {
+ *            if (shareEdge(triangolo1, triangolo2)
+ *            {
+ *               if(!CondizioneDelaunay)
+ *               {
+ *                   faccio flip
+ *               }
+ *               else
+ *               {continue;}
+ *            }
+ *         }
+ *      }
+ *  }
+ *  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*for (const Point& p : points)
+    {
         vector<Triangle> invalidTriangles;
         for (Triangle& t : triangles)
         {
+
             if (t.IsInTheCircle(p))
+                // verificare che cada anche nel triangolo
                 invalidTriangles.push_back(t);
         }
 
@@ -168,6 +283,7 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points) // delaunator
         vector<pair<Point,Point>> boundaryEdges;
         for (const Triangle& t : invalidTriangles)
         {
+            //inserire controllo sui doppioni
             boundaryEdges.emplace_back(t.p1, t.p2);
             boundaryEdges.emplace_back(t.p2, t.p3);
             boundaryEdges.emplace_back(t.p3, t.p1);
@@ -182,32 +298,36 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points) // delaunator
 
         for (const auto& edge : boundaryEdges)
         {
-            triangles.emplace_back(edge.first, edge.second, p);
+            //aggiunto controllo flip
+            if (!(edge.first.x == 0 && edge.first.y == 0 && edge.second.x == 0 && edge.second.y == 0))
+                triangles.push_back(Triangle(edge.first, edge.second, p));
         }
-
-        triangles.erase(remove_if(triangles.begin(), triangles.end(),
-                            [&](Triangle& t)
-                            {
-                                return t.p1 == p1 ||
-                                       t.p1 == p2 ||
-                                       t.p1 == p3 ||
-                                       t.p2 == p1 ||
-                                       t.p2 == p2 ||
-                                       t.p2 == p3 ||
-                                       t.p3 == p1 ||
-                                       t.p3 == p2 ||
-                                       t.p3 == p3;
+    }
+    triangles.erase(remove_if(triangles.begin(), triangles.end(),
+                        [&](Triangle& t)
+                              {
+                            return t.p1 == p1 ||
+                                   t.p1 == p2 ||
+                                   t.p1 == p3 ||
+                                   t.p2 == p1 ||
+                                   t.p2 == p2 ||
+                                   t.p2 == p3 ||
+                                   t.p3 == p1 ||
+                                   t.p3 == p2 ||
+                                   t.p3 == p3;
 
                             }), triangles.end());
 
 
         for (const Triangle& t : triangles)
         {
+
             cout << "(" << t.p1.x << "," << t.p1.y << ") ";
             cout << "(" << t.p2.x << "," << t.p2.y << ") ";
             cout << "(" << t.p3.x << "," << t.p3.y << ")" << endl;
         }
-    }
+
+*/
     return triangles;
 }
 /*

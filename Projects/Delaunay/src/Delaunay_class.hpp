@@ -15,6 +15,7 @@ namespace ProjectLibrary
 struct Point
 {
     double x, y;
+    //Point()=default;
     Point(double x = 0, double y = 0) : x(x), y(y){}
 
 };
@@ -48,7 +49,7 @@ inline double norm(const Point& p)
 
 
 // controlla se i punti sono collineari
-bool Collinear(const Point& p1, const Point& p2, const Point& p3);
+bool Collinear(const Point& p1, const Point& p2, const Point& p3, const double &tol = 1e-5);
 
 bool isCounter(const Point& p1, const Point& p2, const Point& p3);
 
@@ -61,7 +62,7 @@ class Triangle
 private:
     //int id;
     Point p1, p2, p3;
-    array<double,3> angles;
+    //array<double,3> angles;
     //array<int,3> adjacentIds = {-1, -1 , -1}; // se il triangolo di id 5 ha lato adiacente quello opposto al vertice P2 ==> adjacentIds = {-1,5,-1}
 
 public:
@@ -69,8 +70,8 @@ public:
     Triangle(const Point& _p1, const Point& _p2, const Point& _p3);
 
     // calcola il circocentro
-    bool IsInTheCircle(const Point& d);
-    bool IsInTheTriangle(const Point& d);
+    bool IsInTheCircle(const Point& d) const;
+    bool IsInTheTriangle(const Point& d) const;
     bool Verify();
     vector<Triangle> Connect(const Point& d);
     vector<Triangle> Flip(const unsigned int& i, const unsigned int& j);
@@ -78,6 +79,7 @@ public:
     //friend ostream& operator << (ostream& os, const Triangle& t);
     friend bool operator == (const Triangle& t1, const Triangle& t2);
     friend class Triangulation;
+
     
 };
 
@@ -86,8 +88,7 @@ ostream& operator << (ostream& os, const Triangle& t)
 {
     os << "(" << t.p1.x << ", " << t.p1.y << ")";
     return os;
-}
-*/
+}*/
 
 inline bool operator == (const Triangle& t1, const Triangle& t2)
 {
@@ -109,8 +110,8 @@ private:
 public:
     //void Delaunay(vector<Point> &points);
     //friend ostream& operator << (ostream& os, const Triangulation& tt);
-    vector<Triangle> Delaunay(vector<Point> &points);
-    bool TrianglesShareEdge(const Triangle& t1, const Triangle& t2, array<Point,2>& point);
+    vector<Triangle> Delaunator(vector<Point> &points);
+    bool TrianglesShareEdge(const Triangle& t1, const Triangle& t2);
 
 };
 

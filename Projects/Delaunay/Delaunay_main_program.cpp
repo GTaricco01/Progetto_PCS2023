@@ -19,7 +19,7 @@ int main() {
             {6, 4}
         };
     Triangulation t;
-    t.Delaunay(points);
+    t.Delaunator(points);
 
 
     return 0;
