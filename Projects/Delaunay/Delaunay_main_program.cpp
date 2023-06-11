@@ -8,7 +8,6 @@ using namespace ProjectLibrary;
 using namespace Eigen;
 
 int main() {
-
     /*
     vector<Point> points = {
         {1., 1.},
@@ -41,7 +40,7 @@ int main() {
         {6, 4}
     };
     Triangulation t1;
-    t1.Delaunay(points1);
+    t1.Delaunator(points1);
 
 
     vector<Point> points2 = {
@@ -53,7 +52,8 @@ int main() {
         {4., 3.}
     };
     Triangulation t2;
-    t2.Delaunay(points2);
+    t2.Delaunator(points2);
 
     return 0;
 }
+

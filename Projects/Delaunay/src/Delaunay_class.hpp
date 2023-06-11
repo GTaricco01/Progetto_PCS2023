@@ -15,6 +15,7 @@ namespace ProjectLibrary
 struct Point
 {
     double x, y;
+    //Point()=default;
     Point(double x = 0, double y = 0) : x(x), y(y){}
 
 };
@@ -47,7 +48,8 @@ inline double norm(const Point& p)
 }
 
 
-bool Collinear(const Point& p1, const Point& p2, const Point& p3);
+// controlla se i punti sono collineari
+bool Collinear(const Point& p1, const Point& p2, const Point& p3, const double &tol = 1e-5);
 
 bool isCounter(const Point& p1, const Point& p2, const Point& p3);
 
@@ -65,14 +67,15 @@ public:
 
     Triangle() = default;
     Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3);
-    // calcola il circocentro
+
     bool IsInTheCircle(const Point& d);
     bool IsInTheTriangle(const Point& d);
     unsigned int FindAdjacent(const int& id);
 
-    //friend ostream& operator << (ostream& os, const Triangle& tt);
+    //friend ostream& operator << (ostream& os, const Triangle& t);
     friend bool operator == (const Triangle& t1, const Triangle& t2);
     friend class Triangulation;
+
     
 };
 
@@ -83,8 +86,7 @@ ostream& operator << (ostream& os, const Triangle& t)
        << "(" << t.p2.x << ", " << t.p2.y << ") "
        << "(" << t.p3.x << ", " << t.p3.y << ")";
     return os;
-}
-*/
+}*/
 
 inline bool operator == (const Triangle& t1, const Triangle& t2)
 {
@@ -107,7 +109,7 @@ public:
     Triangulation() = default;
     Triangulation(const vector<Triangle>& triangles): triangles(triangles) {}
 
-    vector<Triangle> Delaunay(vector<Point> &points);
+    vector<Triangle> Delaunator(vector<Point> &points);
 
     bool TrianglesShareEdge(const Triangle& t1, const Triangle& t2, array<Point,2>& point);
     list<int> Connect(const int& id, const Point& d);
@@ -127,8 +129,6 @@ ostream& operator << (ostream& os, const Triangulation& tt)
     return os;
 }
 */
-
-
 
 
 }

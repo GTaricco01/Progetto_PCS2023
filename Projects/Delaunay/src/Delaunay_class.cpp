@@ -10,13 +10,13 @@ namespace ProjectLibrary
 {
 
 //funzioni su punti: Collinear IsCounter
-bool Collinear(const Point &p1, const Point &p2, const Point &p3)
+bool Collinear(const Point &p1, const Point &p2, const Point &p3, const double& tol)
 {
     // sono collineari se l'area del triangolo è minore della tolleranza
     double s;
     s = prod(p2-p1, p3-p1);
 
-    return (s == 0);
+    return (abs(s) <= tol);
 }
 
 bool isCounter(const Point& p1, const Point& p2, const Point& p3)
@@ -26,7 +26,6 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
     return (s >= 0);
 }
 
-
 //metodi Triangle: Costruttore IsInTheCircle IsIntTheTriangle
 Triangle::Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3): id(id)
 {
@@ -34,7 +33,7 @@ Triangle::Triangle(const int& id, const Point& _p1, const Point& _p2, const Poin
     if(isCounter(_p1,_p2,_p3))
     {
         p1=_p1; p2=_p2; p3=_p3;
-        }
+    }
     else
     {
         p1=_p1; p2=_p3; p3=_p2;
@@ -74,7 +73,6 @@ unsigned int Triangle::FindAdjacent(const int& id)
 }
 
 //metodi Triangulation: TriangleSharesEdge, Connect, Verify, Flip
-
 bool Triangulation::TrianglesShareEdge(const Triangle& t1, const Triangle& t2, array<Point,2>& point)
 {
     unsigned int shared = 0;
@@ -146,7 +144,7 @@ void Triangulation::Verify(list<int>& ids)
                     ids.push_back(id);
                     ids.push_back(tAd.id);
                     ids.pop_front();
-                        break;
+                    break;
                 }
             }
         }
@@ -154,6 +152,7 @@ void Triangulation::Verify(list<int>& ids)
 
     }
 }
+
 
 
 void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& SecondId, const unsigned int& j)
@@ -193,8 +192,7 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
 
 
 
-
-vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
+vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
 {
     unsigned int n = points.size();
     // define super triangle
@@ -244,11 +242,24 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
         }
         cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
     }
-/*
+
+    /*for (const Point& p : points)
+    {
+        vector<Triangle> invalidTriangles;
+        for (Triangle& t : triangles)
+        {
+
+            if (t.IsInTheCircle(p))
+                // verificare che cada anche nel triangolo
+                invalidTriangles.push_back(t);
+        }
+
+
         // find the boundary edges of the polygon formed by invalid triangles
         vector<pair<Point,Point>> boundaryEdges;
         for (const Triangle& t : invalidTriangles)
         {
+            //inserire controllo sui doppioni
             boundaryEdges.emplace_back(t.p1, t.p2);
             boundaryEdges.emplace_back(t.p2, t.p3);
             boundaryEdges.emplace_back(t.p3, t.p1);
@@ -256,28 +267,38 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
 
         // remove invalid triangles from the triangulation
         triangles.erase(remove_if(triangles.begin(), triangles.end(),
-                                  [&](const Triangle& t)
+                                  [&](Triangle& t)
                                   {
-                                    return find(invalidTriangles.begin(),invalidTriangles.end(),t) != invalidTriangles.end();
+                                      return find(invalidTriangles.begin(),invalidTriangles.end(),t) != invalidTriangles.end();
                                   }), triangles.end());
-        pair<Point,Point> aux;
+
         for (const auto& edge : boundaryEdges)
         {
-
-            //if(edge è in comune con due triangoli)
-            {
-                if(la somma degli angoli opposti all'edge <= 180°)
-                {
-                    allora fai il push back perché il triangolo è valido
-                }
-            }
-
-            triangles.push_back(Triangle(edge.first, edge.second, p));
-            aux = edge;
+            //aggiunto controllo flip
+            if (!(edge.first.x == 0 && edge.first.y == 0 && edge.second.x == 0 && edge.second.y == 0))
+                triangles.push_back(Triangle(edge.first, edge.second, p));
         }
     }
-*/
-
+ * creare un metodo per verificare che due triangoli abbiano un lato in comune
+ * for (triangolo1 : triangles)
+ * {
+ *     for (triangolo2 : triangles)
+ *     {
+ *         if (triangolo1 != triangolo2)
+ *         {
+ *            if (shareEdge(triangolo1, triangolo2)
+ *            {
+ *               if(!CondizioneDelaunay)
+ *               {
+ *                   faccio flip
+ *               }
+ *               else
+ *               {continue;}
+ *            }
+ *         }
+ *      }
+ *  }
+ *  */
     triangles.erase(remove_if(triangles.begin(), triangles.end(),
                               [&](Triangle& t)
                               {
