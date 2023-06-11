@@ -1,7 +1,7 @@
 #ifndef __EMPTY_H
 #define __EMPTY_H
 
-#include "iostream"
+#include <iostream>
 #include <cmath>
 #include <fstream>
 #include "Eigen/Eigen"
@@ -47,13 +47,9 @@ inline double norm(const Point& p)
 }
 
 
-// controlla se i punti sono collineari
 bool Collinear(const Point& p1, const Point& p2, const Point& p3);
 
 bool isCounter(const Point& p1, const Point& p2, const Point& p3);
-
-bool isCounter(const vector<Point> points);
-
 
 
 class Triangle
@@ -62,21 +58,19 @@ private:
     int id;
     Point p1, p2, p3;
     array<double,3> angles;
-    array<int,3> adjacentIds = {-1, -1 , -1};
 
 public:
+
+    array<int,3> adjacentIds = {-1, -1 , -1};
+
     Triangle() = default;
     Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3);
-
     // calcola il circocentro
     bool IsInTheCircle(const Point& d);
     bool IsInTheTriangle(const Point& d);
-    bool Verify();
+    unsigned int FindAdjacent(const int& id);
 
-    vector<Triangle> Connect(const Point& d);
-    vector<Triangle> Flip(const unsigned int& i, const unsigned int& j);
-
-    //friend ostream& operator << (ostream& os, const Triangle& t);
+    //friend ostream& operator << (ostream& os, const Triangle& tt);
     friend bool operator == (const Triangle& t1, const Triangle& t2);
     friend class Triangulation;
     
@@ -85,7 +79,9 @@ public:
 /*
 ostream& operator << (ostream& os, const Triangle& t)
 {
-    os << "(" << t.p1.x << ", " << t.p1.y << ")";
+    os << "(" << t.p1.x << ", " << t.p1.y << ") "
+       << "(" << t.p2.x << ", " << t.p2.y << ") "
+       << "(" << t.p3.x << ", " << t.p3.y << ")";
     return os;
 }
 */
@@ -108,34 +104,31 @@ private:
     vector<Triangle> triangles;
 
 public:
-    //void Delaunay(vector<Point> &points);
-    //friend ostream& operator << (ostream& os, const Triangulation& tt);
-    vector<Triangle> Delaunay(vector<Point> &points);
-    bool TrianglesShareEdge(const Triangle& t1, const Triangle& t2, array<Point,2>& point);
+    Triangulation() = default;
+    Triangulation(const vector<Triangle>& triangles): triangles(triangles) {}
 
+    vector<Triangle> Delaunay(vector<Point> &points);
+
+    bool TrianglesShareEdge(const Triangle& t1, const Triangle& t2, array<Point,2>& point);
+    list<int> Connect(const int& id, const Point& d);
+    void Verify(list<int>& ids);
+    void Flip(const int& FirstId, const unsigned int& i ,const int& SecondId, const unsigned int& j);
+
+    //friend ostream& operator << (ostream& os, const Triangulation& tt);
 };
 
 /*
 ostream& operator << (ostream& os, const Triangulation& tt)
 {
     for (const Triangle& t : tt.triangles)
-        os<<t<<endl;
+        os << "(" << t.p1.x << ", " << t.p1.y << ") "
+           << "(" << t.p2.x << ", " << t.p2.y << ") "
+           << "(" << t.p3.x << ", " << t.p3.y << ")" << endl;
     return os;
 }
 */
 
-//classe Reader: legge da file di input e crea vettore in cui sono memorizzati gli oggetti Point
-class Reader
-{
-private:
-    string input;
-    string line;
-    ifstream file;
-    vector<Point> points;
-public:
-    Reader() = default;
-    vector<Point> MakeVector(const string& input);
-};
+
 
 
 }

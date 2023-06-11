@@ -1,6 +1,4 @@
 #include "Delaunay_class.hpp"
-#include <complex>
-#include <sstream>
 #include <iostream>
 #include <cmath>
 #include "Eigen/Eigen"
@@ -11,6 +9,7 @@ using namespace ProjectLibrary;
 namespace ProjectLibrary
 {
 
+//funzioni su punti: Collinear IsCounter
 bool Collinear(const Point &p1, const Point &p2, const Point &p3)
 {
     // sono collineari se l'area del triangolo è minore della tolleranza
@@ -20,7 +19,6 @@ bool Collinear(const Point &p1, const Point &p2, const Point &p3)
     return (s == 0);
 }
 
-// controllo su tutti i punti
 bool isCounter(const Point& p1, const Point& p2, const Point& p3)
 {
     double s;
@@ -28,29 +26,27 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
     return (s >= 0);
 }
 
+
+//metodi Triangle: Costruttore IsInTheCircle IsIntTheTriangle
 Triangle::Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3): id(id)
 {
     // il costruttore conrolla in anticipo se i punti sono collineari e li dispone già in senso antiorario
-    if(!Collinear(_p1, _p2, _p3))
+    if(isCounter(_p1,_p2,_p3))
     {
-        if(isCounter(_p1,_p2,_p3))
-        {
-            p1=_p1; p2=_p2; p3=_p3;
+        p1=_p1; p2=_p2; p3=_p3;
         }
-        else
-        {
-            p1=_p1; p2=_p3; p3=_p2;
-        }
+    else
+    {
+        p1=_p1; p2=_p3; p3=_p2;
     }
+
     angles[0] = acos((p2-p1)*(p3-p1)/(norm(p2-p1)*norm(p3-p1)));
-    angles[1] = acos((p3-p2)*(p3-p1)/(norm(p1-p2)*norm(p3-p1)));
-    angles[2] = acos((p1-p3)*(p3-p1)/(norm(p2-p3)*norm(p3-p1)));
+    angles[1] = acos((p3-p2)*(p1-p2)/(norm(p3-p2)*norm(p1-p2)));
+    angles[2] = acos((p1-p3)*(p2-p3)/(norm(p1-p3)*norm(p2-p3)));
 }
 
 bool Triangle::IsInTheCircle(const Point& d)
 {
-    // assuming points are ordered in counterclockwise order
-
     Matrix<double, 3, 3> mat;
     mat << p1.x-d.x, p1.y-d.y, (p1.x-d.x)*(p1.x-d.x) + (p1.y-d.y)*(p1.y-d.y),
         p2.x-d.x, p2.y-d.y, (p2.x-d.x)*(p2.x-d.x) + (p2.y-d.y)*(p2.y-d.y),
@@ -63,32 +59,22 @@ bool Triangle::IsInTheTriangle(const Point& d)
 {
     return (isCounter(p1, p2, d) && isCounter(p2, p3, d) && isCounter(p3, p1, d));
 }
-// da definire id1 id2 id3 etc
-/*vector<Triangle> Triangle::Connect(const Point& d)
+
+unsigned int Triangle::FindAdjacent(const int& id)
 {
-    vector<Triangle> newTriangles;
-    Triangle t1(id1, p1, p2, d);
-    Triangle t2(id2, p2, p3, d);
-    Triangle t3(id3, p3, p1, d);
+    unsigned int j=0;
+    while (j<3)
+    {
+        if (adjacentIds[j] == id)
+            return j;
+        j++;
+    }
+    return 1000;
 
-    t1.adjacentId[0] = id2;
-    t1.adjacentId[1] = id3;
-    t1.adjacentId[2] = adjacent[2];
-
-    t2.adjacentId[0] = id3;
-    t2.adjacentId[1] = id1;
-    t2.adjacentId[2] = adjacent[0];
-
-    t3.adjacentId[0] = id1;
-    t3.adjacentId[1] = id2;
-    t3.adjacentId[2] = adjacent[1];
-
-    newTriangles.push_back(t1);
-    newTriangles.push_back(t2);
-    newTriangles.push_back(t3);
-    return newTriangles;
 }
-*/
+
+//metodi Triangulation: TriangleSharesEdge, Connect, Verify, Flip
+
 bool Triangulation::TrianglesShareEdge(const Triangle& t1, const Triangle& t2, array<Point,2>& point)
 {
     unsigned int shared = 0;
@@ -111,12 +97,98 @@ bool Triangulation::TrianglesShareEdge(const Triangle& t1, const Triangle& t2, a
 }
 
 
-
-
-vector<Triangle> Triangle::Flip(const unsigned int& i,const unsigned int& j)
+list<int> Triangulation::Connect(const int& id, const Point& d)
 {
-    vector<Triangle> flipped;
-    Triangle()
+    Triangle t = triangles[id];
+    Triangle t1(id, t.p1, t.p2, d);
+    Triangle t2(triangles.size(), t.p2, t.p3, d);
+    Triangle t3(triangles.size()+1, t.p3, t.p1, d);
+
+    t1.adjacentIds[0] = t2.id;
+    t1.adjacentIds[1] = t3.id;
+    t1.adjacentIds[2] = t.adjacentIds[2];
+    //qui l'id è già giusto
+    //triangles[t.adjacentIds[2]].adjacentIds[triangles[t.adjacentIds[2]].FindAdjacent(id)]=id;
+
+    t2.adjacentIds[0] = t3.id;
+    t2.adjacentIds[1] = t1.id;
+    t2.adjacentIds[2] = t.adjacentIds[0];
+    triangles[t.adjacentIds[0]].adjacentIds[triangles[t.adjacentIds[0]].FindAdjacent(id)]=t2.id;
+
+    t3.adjacentIds[0] = t1.id;
+    t3.adjacentIds[1] = t2.id;
+    t3.adjacentIds[2] = t.adjacentIds[1];
+    triangles[t.adjacentIds[1]].adjacentIds[triangles[t.adjacentIds[1]].FindAdjacent(id)]=t3.id;
+
+    triangles[id] = t1;
+    triangles.push_back(t2);
+    triangles.push_back(t3);
+
+    return {id, t2.id, t3.id};
+}
+
+void Triangulation::Verify(list<int>& ids)
+{
+    while (!ids.empty())
+    {
+        int id = ids.front();
+        Triangle t = triangles[id];
+        for (unsigned int i=0; i<3; i++)
+        {
+            if (t.adjacentIds[i] != -1)
+            {
+                Triangle tAd = triangles[t.adjacentIds[i]];
+                unsigned int j = tAd.FindAdjacent(id);
+
+                if(t.angles[i]+tAd.angles[j] > M_PI)
+                {
+                    Flip(t.id, i, tAd.id, j);
+                    ids.push_back(id);
+                    ids.push_back(tAd.id);
+                    ids.pop_front();
+                        break;
+                }
+            }
+        }
+        ids.pop_front();
+
+    }
+}
+
+
+void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& SecondId, const unsigned int& j)
+{
+    Triangle t = triangles[FirstId];
+    Triangle tAd = triangles[SecondId];
+    vector<Point> t_points = {t.p1, t.p2, t.p3};
+    vector<Point> tAd_points = {tAd.p1, tAd.p2, tAd.p3};
+
+    Triangle t1(FirstId, t_points[i], t_points[(i+1)%3], tAd_points[j]);
+    Triangle t2(SecondId, t_points[i], tAd_points[j], t_points[(i+2)%3]);
+
+    //vedere le adiacenze
+    t1.adjacentIds[0] = tAd.adjacentIds[(j+1)%3];
+    t1.adjacentIds[1] = SecondId;
+    t1.adjacentIds[2] = t.adjacentIds[(i+2)%3];
+    triangles[FirstId] = t1;
+    //aggiorna il triangolo adiacente sul primo lato
+    triangles[t1.adjacentIds[0]].adjacentIds[triangles[t1.adjacentIds[0]].FindAdjacent(SecondId)]=FirstId;
+
+    t2.adjacentIds[0] = tAd.adjacentIds[(j+2)%3];
+    t2.adjacentIds[1] = t.adjacentIds[(i+1)%3];
+    t2.adjacentIds[2] = FirstId;
+    triangles[SecondId] = t2;
+    //aggiorna il triangolo adiacente al secondo lato
+    triangles[t2.adjacentIds[1]].adjacentIds[triangles[t2.adjacentIds[1]].FindAdjacent(FirstId)]=SecondId;
+
+    /*
+    for (const Triangle& t : triangles)
+    {
+        cout << "(" << t.p1.x << ", " << t.p1.y << ") "
+             << "(" << t.p2.x << ", " << t.p2.y << ") "
+             << "(" << t.p3.x << ", " << t.p3.y << ")" << endl;
+        cout << "Adiacenze : " << t.adjacentIds[0] << "  " << t.adjacentIds[1] << "  " << t.adjacentIds[2] << endl;
+    }*/
 }
 
 
@@ -156,42 +228,22 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
 
     for (const Point& p : points)
     {
-        for (Triangle& t : triangles)
+        int n = triangles.size();
+        for (int id = 0; id < n; id++)
         {
+            Triangle t = triangles[id];
             if (t.IsInTheCircle(p))
+            {
                 if (t.IsInTheTriangle(p))
                 {
-                    vector<Triangle> newTriangles = t.Connect(p);
-                    triangles.erase(find(triangles.begin(), triangles.end(), t));
-
-                    for(const Triangle& t: newTriangles)
-                    {
-                        bool valid = true;
-                        for(int i=0; i<3; i++)
-                        {
-                            unsigned int j=0;
-                            while(j<3)
-                            {
-                                if(*(adjacent[i]->adjacent[j])==t)
-                                    break;
-                                j++;
-                            }
-                            if(angle[i]+adjacent[i]->angle[j]>M_PI)
-                            {
-                                valid = false;
-                                vector<Triangle> flipped = t.Flip(i,j);
-                                triangles.erase(find(triangles.begin(), triangles.end(), *adjacent[j]));
-                                newTriangles.push_back(flipped[0]);
-                                newTriangles.push_back(flipped[1]);
-                                break;
-                            }
-                        }
-                        if(valid)
-                            triangles.push_back(t);
-                    }
+                    list<int> newIds = Connect(id, p);
+                    Verify(newIds);
+                    break;
                 }
             }
         }
+        cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
+    }
 /*
         // find the boundary edges of the polygon formed by invalid triangles
         vector<pair<Point,Point>> boundaryEdges;
@@ -247,24 +299,10 @@ vector<Triangle> Triangulation::Delaunay(vector<Point>& points)
              << "(" << t.p2.x << ", " << t.p2.y << ") "
              << "(" << t.p3.x << ", " << t.p3.y << ")" << endl;
     }
+
+    return triangles;
 }
 
-
-vector<Point> Reader::MakeVector(const string& input)
-{
-    file.open(input);
-    getline(file,line);
-    while (!file.eof())
-    {
-        double id, x, y;
-        getline(file,line);
-        istringstream cast(line);
-
-        cast >> id >> x >> y;
-        points.push_back(Point(x,y));
-    }
-    return points;
-}
 
 } // namespace ProjectLibrary
 

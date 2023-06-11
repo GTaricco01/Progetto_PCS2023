@@ -1,10 +1,7 @@
-#include "Delaunay_class.hpp"
 #include <iostream>
-#include <numeric>
-#include <sstream>
-#include <fstream>
+#include "Reader_class.hpp"
+#include "Delaunay_class.hpp"
 #include "Eigen/Eigen"
-#include <cmath>
 
 using namespace std;
 using namespace ProjectLibrary;
@@ -12,34 +9,51 @@ using namespace Eigen;
 
 int main() {
 
+    /*
     vector<Point> points = {
+        {1., 1.},
+        {1., 3.},
+        {-1., 2.},
+        {4., 1.},
+        {3., 3.},
+        {4., 3.}
+    };
+
+    Triangle t0(0, points[0], points[1], points[2]);
+    t0.adjacentIds = {-1, -1, 1};
+    Triangle t1(1, points[0], points[3], points[1]);
+    t1.adjacentIds = {2, 0, -1};
+    Triangle t2(2, points[1], points[3], points[4]);
+    t2.adjacentIds = {3 ,-1, 1};
+    Triangle t3(3, points[4], points[3], points[5]);
+    t3.adjacentIds = {-1 ,-1, 2};
+
+    vector<Triangle> triangles = {t0, t1, t2, t3};
+    Triangulation test_flip(triangles);
+    test_flip.Flip(1, 0, 2, 2);
+    */
+
+    vector<Point> points1 = {
         {1, 1},
         {2, 3},
         {4, 2},
         {3, 5},
         {6, 4}
     };
-    Triangulation t;
-    t.Delaunay(points);
+    Triangulation t1;
+    t1.Delaunay(points1);
 
-    Triangle triangle1 = { { 1.0, 1.0 }, { 2.0, 3.0 }, { 4.0, 2.0 } };
-    Triangle triangle2 = { { 2.0, 3.0 }, { 4.0, 2.0 }, { 3.0, 5.0 } };
-    Triangulation tt;
-    if (tt.TrianglesShareEdge(triangle1, triangle2)) {
-        // Flip the triangles
-        tt.Flip(triangle1, triangle2);
 
-        // Print the flipped triangles
-        std::cout << "Flipped triangle 1: (" << triangle1.p1.x << ", " << triangle1.p1.y << "), "
-                  << "(" << triangle1.p2.x << ", " << triangle1.p2.y << "), "
-                  << "(" << triangle1.p3.x << ", " << triangle1.p3.y << ")\n";
-
-        std::cout << "Flipped triangle 2: (" << triangle2.p1.x << ", " << triangle2.p1.y << "), "
-                  << "(" << triangle2.p2.x << ", " << triangle2.p2.y << "), "
-                  << "(" << triangle2.p3.x << ", " << triangle2.p3.y << ")\n";
-    } else {
-        std::cout << "Triangles do not share an edge. Cannot perform edge flip.\n";
-    }
+    vector<Point> points2 = {
+        {1., 1.},
+        {1., 3.},
+        {-1., 2.},
+        {4., 1.},
+        {3., 3.},
+        {4., 3.}
+    };
+    Triangulation t2;
+    t2.Delaunay(points2);
 
     return 0;
 }
