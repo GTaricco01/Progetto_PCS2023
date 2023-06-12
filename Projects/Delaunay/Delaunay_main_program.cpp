@@ -41,8 +41,9 @@ int main() {
     };
     Triangulation t1;
     t1.Delaunator(points1);
+    cout<<t1;
 
-
+    /*
     vector<Point> points2 = {
         {1., 1.},
         {1., 3.},
@@ -53,7 +54,15 @@ int main() {
     };
     Triangulation t2;
     t2.Delaunator(points2);
+    */
 
+    /*
+    Reader r;
+    vector<Point> points = r.MakeVector("./Dataset/Test2.csv");
+    Triangulation t;
+    t.Delaunator(points);
+    cout<<t;
     return 0;
+    */
 }
 

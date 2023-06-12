@@ -27,18 +27,20 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
 }
 
 //metodi Triangle: Costruttore IsInTheCircle IsIntTheTriangle
-Triangle::Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3): id(id)
+Triangle::Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3):
+    id(id), p1(_p1), p2(_p2), p3(_p3)
 {
     // il costruttore conrolla in anticipo se i punti sono collineari e li dispone già in senso antiorario
+    /*
     if(isCounter(_p1,_p2,_p3))
     {
-        p1=_p1; p2=_p2; p3=_p3;
+            p1=_p1; p2=_p2; p3=_p3;
     }
     else
     {
         p1=_p1; p2=_p3; p3=_p2;
     }
-
+    */
     angles[0] = acos((p2-p1)*(p3-p1)/(norm(p2-p1)*norm(p3-p1)));
     angles[1] = acos((p3-p2)*(p1-p2)/(norm(p3-p2)*norm(p1-p2)));
     angles[2] = acos((p1-p3)*(p2-p3)/(norm(p1-p3)*norm(p2-p3)));
@@ -240,7 +242,8 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
                 }
             }
         }
-        cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
+        // se tolgo questo messaggio crasha. Sono molto confuso
+        // cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
     }
 
     /*for (const Point& p : points)
@@ -314,12 +317,15 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
 
                               }), triangles.end());
 
+    /*
     for(const Triangle& t : triangles)
     {
-        cout << "(" << t.p1.x << ", " << t.p1.y << ") "
-             << "(" << t.p2.x << ", " << t.p2.y << ") "
-             << "(" << t.p3.x << ", " << t.p3.y << ")" << endl;
+        cout << "Id: " << t.id
+             << " (" << t.p1.x << ", " << t.p1.y << ")"
+             << " (" << t.p2.x << ", " << t.p2.y << ")"
+             << " (" << t.p3.x << ", " << t.p3.y << ")" << endl;
     }
+    */
 
     return triangles;
 }

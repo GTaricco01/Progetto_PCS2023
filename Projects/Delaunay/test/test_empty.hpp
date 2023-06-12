@@ -92,8 +92,7 @@ TEST(MetodiTriangolazione, Connect)
 */
 
 /*
-=======
->>>>>>> 92b5a92c06d080fc1215dab5fbdcf8a4d223b5bc
+
 TEST(ImportDati, MakeVector)
 {
     string input = "/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/prova_punti.txt";

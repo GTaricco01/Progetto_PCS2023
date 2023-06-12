@@ -72,21 +72,21 @@ public:
     bool IsInTheTriangle(const Point& d);
     unsigned int FindAdjacent(const int& id);
 
-    //friend ostream& operator << (ostream& os, const Triangle& t);
+    friend ostream& operator << (ostream& os, const Triangle& t)
+    {
+        os << "Id: " << t.id
+           << " (" << t.p1.x << ", " << t.p1.y << ")"
+           << " (" << t.p2.x << ", " << t.p2.y << ")"
+           << " (" << t.p3.x << ", " << t.p3.y << ")";
+        return os;
+    }
     friend bool operator == (const Triangle& t1, const Triangle& t2);
     friend class Triangulation;
 
-    
 };
 
-/*
-ostream& operator << (ostream& os, const Triangle& t)
-{
-    os << "(" << t.p1.x << ", " << t.p1.y << ") "
-       << "(" << t.p2.x << ", " << t.p2.y << ") "
-       << "(" << t.p3.x << ", " << t.p3.y << ")";
-    return os;
-}*/
+
+
 
 inline bool operator == (const Triangle& t1, const Triangle& t2)
 {
@@ -116,19 +116,14 @@ public:
     void Verify(list<int>& ids);
     void Flip(const int& FirstId, const unsigned int& i ,const int& SecondId, const unsigned int& j);
 
-    //friend ostream& operator << (ostream& os, const Triangulation& tt);
+    friend ostream& operator << (ostream& os, const Triangulation& tt)
+    {
+        for (const Triangle& t : tt.triangles)
+            os << t << endl;
+        return os;
+    }
 };
 
-/*
-ostream& operator << (ostream& os, const Triangulation& tt)
-{
-    for (const Triangle& t : tt.triangles)
-        os << "(" << t.p1.x << ", " << t.p1.y << ") "
-           << "(" << t.p2.x << ", " << t.p2.y << ") "
-           << "(" << t.p3.x << ", " << t.p3.y << ")" << endl;
-    return os;
-}
-*/
 
 
 }

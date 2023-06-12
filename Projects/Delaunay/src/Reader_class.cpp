@@ -21,5 +21,6 @@ vector<Point> Reader::MakeVector(const string& input)
         cast >> id >> x >> y;
         points.push_back(Point(x,y));
     }
+    file.close();
     return points;
 }
