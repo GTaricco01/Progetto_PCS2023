@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 #include "Delaunay_class.hpp"
-#include "Reader_class.hpp"
+
 
 using namespace testing;
 using namespace ProjectLibrary;
@@ -82,34 +82,17 @@ TEST(MetodiTriangolazione, Connect)
     Point p2 = Point(2,0);
     Point p3 = Point(3,2);
     Point d = Point(2,1);
-    Triangle t = Triangle(p1, p2, p3);
+    Triangle t = Triangle(0,p1, p2, p3);
     vector<Triangle> vecT = {Triangle(p1, p2, d),
                              Triangle(p2, p3, d),
                              Triangle(p3, p1, d)};
 
     EXPECT_EQ(vecT, t.Connect(d));
-}
-*/
-
-/*
-=======
->>>>>>> 92b5a92c06d080fc1215dab5fbdcf8a4d223b5bc
-TEST(ImportDati, MakeVector)
-{
-    string input = "/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/prova_punti.txt";
-    vector<Point> vec_exact ={
-        {1,0},
-        {0,1},
-        {2,5},
-        {-1,5}
-    };
-    Reader vec_try;
+}*/
 
 
-    EXPECT_EQ(vec_exact, vec_try.MakeVector(input));
-}
 
-*/
+
 
 
 

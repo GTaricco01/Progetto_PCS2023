@@ -186,7 +186,7 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
         cout << "(" << t.p1.x << ", " << t.p1.y << ") "
              << "(" << t.p2.x << ", " << t.p2.y << ") "
              << "(" << t.p3.x << ", " << t.p3.y << ")" << endl;
-        cout << "Adiacenze : " << t.adjacentIds[0] << "  " << t.adjacentIds[1] << "  " << t.adjacentIds[2] << endl;
+        cout << "Adiacenze: " << t.adjacentIds[0] << "  " << t.adjacentIds[1] << "  " << t.adjacentIds[2] << endl;
     }*/
 }
 
@@ -240,7 +240,7 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
                 }
             }
         }
-        cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
+        cout<<"Il punto P = ("<<p.x<<","<<p.y<<") è stato aggiunto con successo alla triangolazione."<<endl;
     }
 
     /*for (const Point& p : points)
