@@ -2,12 +2,9 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
-<<<<<<< HEAD
 #include <cmath>
 #include "Eigen/Eigen"
-=======
 using namespace ProjectLibrary;
->>>>>>> 6081afd0d2a8dd76b6a215b0b3df236d53a2efc7
 
 using namespace ProjectLibrary;
 

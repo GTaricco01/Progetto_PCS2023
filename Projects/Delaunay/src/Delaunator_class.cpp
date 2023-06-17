@@ -177,16 +177,18 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
     t1.adjacentIds[2] = t.adjacentIds[(i+2)%3];
     triangles[FirstId] = t1;
     //aggiorna il triangolo adiacente sul primo lato
-    Triangle& tNear1 = triangles[t1.adjacentIds[0]];
-    tNear1.adjacentIds[tNear1.FindAdjacent(SecondId)]=FirstId;
+    //Triangle& tNear1 = triangles[t1.adjacentIds[0]];
+    //tNear1.adjacentIds[tNear1.FindAdjacent(SecondId)]=FirstId;
+    triangles[t1.adjacentIds[0]].adjacentIds[triangles[t1.adjacentIds[0]].FindAdjacent(SecondId)]=FirstId;
 
     t2.adjacentIds[0] = tAd.adjacentIds[(j+2)%3];
     t2.adjacentIds[1] = t.adjacentIds[(i+1)%3];
     t2.adjacentIds[2] = FirstId;
     triangles[SecondId] = t2;
     //aggiorna il triangolo adiacente al secondo lato
-    Triangle& tNear2 = triangles[t2.adjacentIds[1]];
-    tNear2.adjacentIds[tNear2.FindAdjacent(FirstId)]=SecondId;
+    //Triangle& tNear2 = triangles[t2.adjacentIds[1]];
+    //tNear2.adjacentIds[tNear2.FindAdjacent(FirstId)]=SecondId;
+    triangles[t2.adjacentIds[1]].adjacentIds[triangles[t2.adjacentIds[1]].FindAdjacent(FirstId)]=SecondId;
 
     /*
     for (const Triangle& t : triangles)
@@ -248,16 +250,15 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
                 }
             }
         }
-<<<<<<< HEAD:Projects/Delaunay/src/Delaunay_class.cpp
         // se tolgo questo messaggio crasha. Sono molto confuso
-        cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
+        // cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
+        cout<<endl;
     }
 
-=======
+    /*
         //cout<<"Il punto P = ("<<p.x<<","<<p.y<<") è stato aggiunto con successo alla triangolazione."<<endl;
-    }
 
-    /*for (const Point& p : points)
+    for (const Point& p : points)
     {
         vector<Triangle> invalidTriangles;
         for (Triangle& t : triangles)
@@ -314,7 +315,6 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
  *  }
  *  */
     //rimozione super triangle iniziale
->>>>>>> 6081afd0d2a8dd76b6a215b0b3df236d53a2efc7:Projects/Delaunay/src/Delaunator_class.cpp
     triangles.erase(remove_if(triangles.begin(), triangles.end(),
                               [&](Triangle& t)
                               {

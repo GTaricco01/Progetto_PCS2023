@@ -1,12 +1,8 @@
 #include <iostream>
 #include "Reader_class.hpp"
-<<<<<<< HEAD
-#include "Delaunay_class.hpp"
 #include <vector>
-=======
 #include "Delaunator_class.hpp"
 #include "Eigen/Eigen"
->>>>>>> 6081afd0d2a8dd76b6a215b0b3df236d53a2efc7
 
 using namespace std;
 using namespace ProjectLibrary;
