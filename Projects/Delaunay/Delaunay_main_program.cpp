@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Reader_class.hpp"
-#include "Delaunay_class.hpp"
+#include "Delaunator_class.hpp"
 #include "Eigen/Eigen"
 
 using namespace std;

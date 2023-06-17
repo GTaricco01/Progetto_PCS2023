@@ -2,7 +2,7 @@
 #define __TEST_EMPTY_H
 
 #include <gtest/gtest.h>
-#include "Delaunay_class.hpp"
+#include "Delaunator_class.hpp"
 
 
 using namespace testing;

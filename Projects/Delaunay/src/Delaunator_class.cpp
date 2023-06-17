@@ -1,4 +1,4 @@
-#include "Delaunay_class.hpp"
+#include "Delaunator_class.hpp"
 #include <iostream>
 #include <cmath>
 #include "Eigen/Eigen"
@@ -235,12 +235,12 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
                 if (t.IsInTheTriangle(p))
                 {
                     list<int> newIds = Connect(id, p);
-                    Verify(newIds);
+                    Verify(newIds); // qui viene chiamata la funzione di Flip()
                     break;
                 }
             }
         }
-        cout<<"Il punto P = ("<<p.x<<","<<p.y<<") è stato aggiunto con successo alla triangolazione."<<endl;
+        //cout<<"Il punto P = ("<<p.x<<","<<p.y<<") è stato aggiunto con successo alla triangolazione."<<endl;
     }
 
     /*for (const Point& p : points)
@@ -299,6 +299,7 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
  *      }
  *  }
  *  */
+    //rimozione super triangle iniziale
     triangles.erase(remove_if(triangles.begin(), triangles.end(),
                               [&](Triangle& t)
                               {

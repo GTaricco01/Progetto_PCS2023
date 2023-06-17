@@ -1,7 +1,7 @@
-list(APPEND delaunay_headers ${CMAKE_CURRENT_SOURCE_DIR}/Delaunay_class.hpp)
+list(APPEND delaunay_headers ${CMAKE_CURRENT_SOURCE_DIR}/Delaunator_class.hpp)
 list(APPEND delaunay_headers ${CMAKE_CURRENT_SOURCE_DIR}/Reader_class.hpp)
 
-list(APPEND delaunay_sources ${CMAKE_CURRENT_SOURCE_DIR}/Delaunay_class.cpp)
+list(APPEND delaunay_sources ${CMAKE_CURRENT_SOURCE_DIR}/Delaunator_class.cpp)
 list(APPEND delaunay_sources ${CMAKE_CURRENT_SOURCE_DIR}/Reader_class.cpp)
 
 list(APPEND delaunay_includes ${CMAKE_CURRENT_SOURCE_DIR})
