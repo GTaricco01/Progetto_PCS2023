@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "Delaunay_class.hpp"
+#include "Delaunator_class.hpp"
 using namespace std;
 using namespace ProjectLibrary;
 

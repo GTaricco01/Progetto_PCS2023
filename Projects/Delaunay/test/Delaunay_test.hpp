@@ -2,7 +2,7 @@
 #define __DELAUNAY_TEST_H
 
 #include <gtest/gtest.h>
-#include "Delaunay_class.hpp"
+#include "Delaunator_class.hpp"
 
 using namespace testing;
 using namespace ProjectLibrary;
@@ -13,7 +13,7 @@ TEST(FunzioniPoint, Collinear)
     Point p1(0.,0.);
     Point p2(2.,0.);
     Point p3(0.,2.);
-    Point p4(4.,0,);
+    Point p4(4.,0.);
 
     EXPECT_FALSE(Collinear(p1, p2, p3));
     EXPECT_TRUE(Collinear(p1, p2, p4));

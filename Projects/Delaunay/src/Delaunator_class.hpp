@@ -87,12 +87,13 @@ public:
 
 
 
+//uguaglianza tra triangoli
 inline bool operator == (const Triangle& t1, const Triangle& t2)
 {
     return t1.p1 == t2.p1 && t1.p2 == t2.p2 && t1.p3 == t2.p3;
 }
 
-
+//uguaglianza tra vettori di triangoli
 inline bool operator == (const vector<Triangle>& t1, const vector<Triangle>& t2)
 {
     return t1[0] == t2[0] && t1[1] == t2[1] && t1[2] == t2[2];

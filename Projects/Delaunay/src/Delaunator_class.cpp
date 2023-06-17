@@ -1,4 +1,4 @@
-#include "Delaunay_class.hpp"
+#include "Delaunator_class.hpp"
 #include <iostream>
 #include <cmath>
 #include "Eigen/Eigen"
@@ -194,7 +194,7 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
         cout << "(" << t.p1.x << ", " << t.p1.y << ") "
              << "(" << t.p2.x << ", " << t.p2.y << ") "
              << "(" << t.p3.x << ", " << t.p3.y << ")" << endl;
-        cout << "Adiacenze : " << t.adjacentIds[0] << "  " << t.adjacentIds[1] << "  " << t.adjacentIds[2] << endl;
+        cout << "Adiacenze: " << t.adjacentIds[0] << "  " << t.adjacentIds[1] << "  " << t.adjacentIds[2] << endl;
     }*/
 }
 
@@ -243,15 +243,78 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
                 if (t.IsInTheTriangle(p))
                 {
                     list<int> newIds = Connect(id, p);
-                    Verify(newIds);
+                    Verify(newIds); // qui viene chiamata la funzione di Flip()
                     break;
                 }
             }
         }
+<<<<<<< HEAD:Projects/Delaunay/src/Delaunay_class.cpp
         // se tolgo questo messaggio crasha. Sono molto confuso
         cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
     }
 
+=======
+        //cout<<"Il punto P = ("<<p.x<<","<<p.y<<") è stato aggiunto con successo alla triangolazione."<<endl;
+    }
+
+    /*for (const Point& p : points)
+    {
+        vector<Triangle> invalidTriangles;
+        for (Triangle& t : triangles)
+        {
+
+            if (t.IsInTheCircle(p))
+                // verificare che cada anche nel triangolo
+                invalidTriangles.push_back(t);
+        }
+
+
+        // find the boundary edges of the polygon formed by invalid triangles
+        vector<pair<Point,Point>> boundaryEdges;
+        for (const Triangle& t : invalidTriangles)
+        {
+            //inserire controllo sui doppioni
+            boundaryEdges.emplace_back(t.p1, t.p2);
+            boundaryEdges.emplace_back(t.p2, t.p3);
+            boundaryEdges.emplace_back(t.p3, t.p1);
+        }
+
+        // remove invalid triangles from the triangulation
+        triangles.erase(remove_if(triangles.begin(), triangles.end(),
+                                  [&](Triangle& t)
+                                  {
+                                      return find(invalidTriangles.begin(),invalidTriangles.end(),t) != invalidTriangles.end();
+                                  }), triangles.end());
+
+        for (const auto& edge : boundaryEdges)
+        {
+            //aggiunto controllo flip
+            if (!(edge.first.x == 0 && edge.first.y == 0 && edge.second.x == 0 && edge.second.y == 0))
+                triangles.push_back(Triangle(edge.first, edge.second, p));
+        }
+    }
+ * creare un metodo per verificare che due triangoli abbiano un lato in comune
+ * for (triangolo1 : triangles)
+ * {
+ *     for (triangolo2 : triangles)
+ *     {
+ *         if (triangolo1 != triangolo2)
+ *         {
+ *            if (shareEdge(triangolo1, triangolo2)
+ *            {
+ *               if(!CondizioneDelaunay)
+ *               {
+ *                   faccio flip
+ *               }
+ *               else
+ *               {continue;}
+ *            }
+ *         }
+ *      }
+ *  }
+ *  */
+    //rimozione super triangle iniziale
+>>>>>>> 6081afd0d2a8dd76b6a215b0b3df236d53a2efc7:Projects/Delaunay/src/Delaunator_class.cpp
     triangles.erase(remove_if(triangles.begin(), triangles.end(),
                               [&](Triangle& t)
                               {

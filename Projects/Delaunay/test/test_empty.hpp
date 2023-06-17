@@ -2,8 +2,8 @@
 #define __TEST_EMPTY_H
 
 #include <gtest/gtest.h>
-#include "Delaunay_class.hpp"
-#include "Reader_class.hpp"
+#include "Delaunator_class.hpp"
+
 
 using namespace testing;
 using namespace ProjectLibrary;
@@ -82,12 +82,13 @@ TEST(MetodiTriangolazione, Connect)
     Point p2 = Point(2,0);
     Point p3 = Point(3,2);
     Point d = Point(2,1);
-    Triangle t = Triangle(p1, p2, p3);
+    Triangle t = Triangle(0,p1, p2, p3);
     vector<Triangle> vecT = {Triangle(p1, p2, d),
                              Triangle(p2, p3, d),
                              Triangle(p3, p1, d)};
 
     EXPECT_EQ(vecT, t.Connect(d));
+<<<<<<< HEAD
 }
 */
 
@@ -103,12 +104,13 @@ TEST(ImportDati, MakeVector)
         {-1,5}
     };
     Reader vec_try;
+=======
+}*/
+
+>>>>>>> 6081afd0d2a8dd76b6a215b0b3df236d53a2efc7
 
 
-    EXPECT_EQ(vec_exact, vec_try.MakeVector(input));
-}
 
-*/
 
 
 
