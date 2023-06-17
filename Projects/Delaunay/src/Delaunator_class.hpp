@@ -14,27 +14,29 @@ namespace ProjectLibrary
 struct Point
 {
     double x, y;
-    //Point()=default;
     Point(double x = 0, double y = 0) : x(x), y(y){}
 
 };
 
-// override operatori di DIFFERENZA e PRODOTTO SCALARE e PRODOTTO ESTERNO tra oggetti Point
+// override operatori di differenza fra oggetti Point
 inline Point operator - (const Point& p1, const Point& p2)
 {
     return Point(p1.x-p2.x,p1.y-p2.y);
 }
 
+// operatore prodotto scalare tra punti
 inline double operator * (const Point& p1, const Point& p2)
 {
     return p1.x*p2.x + p1.y*p2.y;
 }
 
+// operatore prodotto esterno
 inline double prod(const Point& p1, const Point& p2)
 {
     return p1.x*p2.y - p2.x*p1.y;
 }
 
+// operatore uguaglianza tra oggetti Point
 inline bool operator == (const Point& p1, const Point& p2)
 {
     return (p1.x==p2.x && p1.y==p2.y);
