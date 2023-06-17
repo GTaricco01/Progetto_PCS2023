@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <cmath>
-#include "Eigen\Eigen"
+#include "Eigen/Eigen"
 
 using namespace std;
 
@@ -52,6 +52,7 @@ bool Collinear(const Point& p1, const Point& p2, const Point& p3, const double &
 
 bool isCounter(const Point& p1, const Point& p2, const Point& p3);
 
+bool Repetitions(const vector<Point>& p);
 
 class Triangle
 {

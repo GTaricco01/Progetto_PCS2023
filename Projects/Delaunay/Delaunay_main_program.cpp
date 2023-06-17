@@ -32,7 +32,7 @@ int main() {
     test_flip.Flip(1, 0, 2, 2);
     */
 
-    vector<Point> points1 = {
+    /*vector<Point> points1 = {
         {1, 1},
         {2, 3},
         {4, 2},
@@ -41,7 +41,7 @@ int main() {
     };
     Triangulation t1;
     t1.Delaunator(points1);
-    cout<<t1;
+    cout<<t1;*/
 
     /*
     vector<Point> points2 = {
@@ -57,14 +57,13 @@ int main() {
     cout<<t2;
     */
 
-    /*
+
     Reader r;
-    vector<Point> points = r.MakeVector("./Dataset/Test2.csv");
+    vector<Point> points = r.MakeVector("/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/prova_punti.txt");
     Triangulation t;
     t.Delaunator(points);
     cout<<t;
     return 0;
-    */
 
 }
 

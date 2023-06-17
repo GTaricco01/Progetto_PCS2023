@@ -26,21 +26,25 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
     return (s >= 0);
 }
 
+/*bool Repetitions(const vector<Point>& p)
+{
+    bool f = false;
+    Point first = p[0];
+    for (unsigned int i = 1; i < p.size(); i++)
+    {
+        if (p[i] == first)
+        {
+            p.
+        }
+    }
+}*/
+
 //metodi Triangle: Costruttore IsInTheCircle IsIntTheTriangle
 Triangle::Triangle(const int& id, const Point& p1, const Point& p2, const Point& p3):
     id(id), p1(p1), p2(p2), p3(p3)
 {
-    // il costruttore conrolla in anticipo se i punti sono collineari e li dispone già in senso antiorario
-    /*
-    if(isCounter(_p1,_p2,_p3))
-    {
-            p1=_p1; p2=_p2; p3=_p3;
-    }
-    else
-    {
-        p1=_p1; p2=_p3; p3=_p2;
-    }
-    */
+    // se c'è un punto che cade su un lato, il metodo Flip() legge l'angolo di 180° e lo flippa in automatico
+    // il costruttore controlla in anticipo se i punti sono collineari e li dispone già in senso antiorario
     angles[0] = acos((p2-p1)*(p3-p1)/(norm(p2-p1)*norm(p3-p1)));
     angles[1] = acos((p3-p2)*(p1-p2)/(norm(p3-p2)*norm(p1-p2)));
     angles[2] = acos((p1-p3)*(p2-p3)/(norm(p1-p3)*norm(p2-p3)));
