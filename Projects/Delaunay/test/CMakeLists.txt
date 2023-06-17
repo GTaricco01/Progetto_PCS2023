@@ -1,6 +1,7 @@
-list(APPEND delaunay_test_headers ${CMAKE_CURRENT_SOURCE_DIR}/test_empty.hpp)
-list(APPEND delaunay_test_headers ${CMAKE_CURRENT_SOURCE_DIR}/Delaunay_test.hpp)
-list(APPEND delaunay_test_headers ${CMAKE_CURRENT_SOURCE_DIR}/Reader_test.hpp)
+list(APPEND delaunay_test_headers ${CMAKE_CURRENT_SOURCE_DIR}/operators_test.hpp)
+list(APPEND delaunay_test_headers ${CMAKE_CURRENT_SOURCE_DIR}/reader_test.hpp)
+list(APPEND delaunay_test_headers ${CMAKE_CURRENT_SOURCE_DIR}/triangle_test.hpp)
+list(APPEND delaunay_test_headers ${CMAKE_CURRENT_SOURCE_DIR}/delaunay_test.hpp)
 
 list(APPEND delaunay_test_includes ${CMAKE_CURRENT_SOURCE_DIR})
 

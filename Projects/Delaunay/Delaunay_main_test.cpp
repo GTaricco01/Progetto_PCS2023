@@ -1,5 +1,7 @@
-#include "test_empty.hpp"
-
+#include "delaunay_test.hpp"
+#include "operators_test.hpp"
+#include "reader_test.hpp"
+#include "triangle_test.hpp"
 #include <gtest/gtest.h>
 
 int main(int argc, char *argv[])

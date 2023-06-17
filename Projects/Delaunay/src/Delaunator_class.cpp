@@ -27,26 +27,22 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
     return (s >= 0);
 }
 
-bool Repetitions(vector<Point>& vecp)
+vector<Point> Repetitions(vector<Point>& vecp)
 {
-    unsigned int f = 0;
-    for (unsigned int i = 1; i < vecp.size(); i++)
+    for (unsigned int i = 0; i < vecp.size(); i++)
     {
         for (unsigned int j = 0; j < vecp.size(); j++)
         {
             if (j != i)
             {
-                vecp.erase(remove_if(vecp.begin(), vecp.end(),
-                                     [&] (const vector<Point>& vecp)
-                                     {
-                                         return vecp[i] == vecp[j];
-                           }),
-                           vecp.end());
-                f++;
+                if (vecp[j] == vecp[i])
+                {
+                    vecp.erase(vecp.begin()+j);
+                }
             }
         }
     }
-    return f > 0; // vero se f > 0 <=> vero se ci sono ripetizioni
+    return vecp;
 }
 
 //metodi Triangle: Costruttore IsInTheCircle IsIntTheTriangle
@@ -266,5 +262,4 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
 }
 
 
-} // namespace ProjectLibrary
-
+}
