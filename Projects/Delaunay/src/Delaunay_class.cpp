@@ -27,8 +27,8 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
 }
 
 //metodi Triangle: Costruttore IsInTheCircle IsIntTheTriangle
-Triangle::Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3):
-    id(id), p1(_p1), p2(_p2), p3(_p3)
+Triangle::Triangle(const int& id, const Point& p1, const Point& p2, const Point& p3):
+    id(id), p1(p1), p2(p2), p3(p3)
 {
     // il costruttore conrolla in anticipo se i punti sono collineari e li dispone già in senso antiorario
     /*
@@ -124,7 +124,11 @@ list<int> Triangulation::Connect(const int& id, const Point& d)
     triangles.push_back(t2);
     triangles.push_back(t3);
 
-    return {id, t2.id, t3.id};
+    list<int> Ids;
+    Ids.push_back(id);
+    Ids.push_back(t2.id);
+    Ids.push_back(t3.id);
+    return Ids;
 }
 
 void Triangulation::Verify(list<int>& ids)
@@ -173,14 +177,16 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
     t1.adjacentIds[2] = t.adjacentIds[(i+2)%3];
     triangles[FirstId] = t1;
     //aggiorna il triangolo adiacente sul primo lato
-    triangles[t1.adjacentIds[0]].adjacentIds[triangles[t1.adjacentIds[0]].FindAdjacent(SecondId)]=FirstId;
+    Triangle& tNear1 = triangles[t1.adjacentIds[0]];
+    tNear1.adjacentIds[tNear1.FindAdjacent(SecondId)]=FirstId;
 
     t2.adjacentIds[0] = tAd.adjacentIds[(j+2)%3];
     t2.adjacentIds[1] = t.adjacentIds[(i+1)%3];
     t2.adjacentIds[2] = FirstId;
     triangles[SecondId] = t2;
     //aggiorna il triangolo adiacente al secondo lato
-    triangles[t2.adjacentIds[1]].adjacentIds[triangles[t2.adjacentIds[1]].FindAdjacent(FirstId)]=SecondId;
+    Triangle& tNear2 = triangles[t2.adjacentIds[1]];
+    tNear2.adjacentIds[tNear2.FindAdjacent(FirstId)]=SecondId;
 
     /*
     for (const Triangle& t : triangles)
@@ -243,65 +249,9 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
             }
         }
         // se tolgo questo messaggio crasha. Sono molto confuso
-        // cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
+        cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
     }
 
-    /*for (const Point& p : points)
-    {
-        vector<Triangle> invalidTriangles;
-        for (Triangle& t : triangles)
-        {
-
-            if (t.IsInTheCircle(p))
-                // verificare che cada anche nel triangolo
-                invalidTriangles.push_back(t);
-        }
-
-
-        // find the boundary edges of the polygon formed by invalid triangles
-        vector<pair<Point,Point>> boundaryEdges;
-        for (const Triangle& t : invalidTriangles)
-        {
-            //inserire controllo sui doppioni
-            boundaryEdges.emplace_back(t.p1, t.p2);
-            boundaryEdges.emplace_back(t.p2, t.p3);
-            boundaryEdges.emplace_back(t.p3, t.p1);
-        }
-
-        // remove invalid triangles from the triangulation
-        triangles.erase(remove_if(triangles.begin(), triangles.end(),
-                                  [&](Triangle& t)
-                                  {
-                                      return find(invalidTriangles.begin(),invalidTriangles.end(),t) != invalidTriangles.end();
-                                  }), triangles.end());
-
-        for (const auto& edge : boundaryEdges)
-        {
-            //aggiunto controllo flip
-            if (!(edge.first.x == 0 && edge.first.y == 0 && edge.second.x == 0 && edge.second.y == 0))
-                triangles.push_back(Triangle(edge.first, edge.second, p));
-        }
-    }
- * creare un metodo per verificare che due triangoli abbiano un lato in comune
- * for (triangolo1 : triangles)
- * {
- *     for (triangolo2 : triangles)
- *     {
- *         if (triangolo1 != triangolo2)
- *         {
- *            if (shareEdge(triangolo1, triangolo2)
- *            {
- *               if(!CondizioneDelaunay)
- *               {
- *                   faccio flip
- *               }
- *               else
- *               {continue;}
- *            }
- *         }
- *      }
- *  }
- *  */
     triangles.erase(remove_if(triangles.begin(), triangles.end(),
                               [&](Triangle& t)
                               {
@@ -316,16 +266,6 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
                                          t.p3 == p3;
 
                               }), triangles.end());
-
-    /*
-    for(const Triangle& t : triangles)
-    {
-        cout << "Id: " << t.id
-             << " (" << t.p1.x << ", " << t.p1.y << ")"
-             << " (" << t.p2.x << ", " << t.p2.y << ")"
-             << " (" << t.p3.x << ", " << t.p3.y << ")" << endl;
-    }
-    */
 
     return triangles;
 }

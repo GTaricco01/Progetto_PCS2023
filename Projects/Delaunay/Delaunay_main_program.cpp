@@ -1,11 +1,10 @@
 #include <iostream>
 #include "Reader_class.hpp"
 #include "Delaunay_class.hpp"
-#include "Eigen/Eigen"
+#include <vector>
 
 using namespace std;
 using namespace ProjectLibrary;
-using namespace Eigen;
 
 int main() {
     /*
@@ -54,6 +53,7 @@ int main() {
     };
     Triangulation t2;
     t2.Delaunator(points2);
+    cout<<t2;
     */
 
     /*
@@ -64,5 +64,6 @@ int main() {
     cout<<t;
     return 0;
     */
+
 }
 

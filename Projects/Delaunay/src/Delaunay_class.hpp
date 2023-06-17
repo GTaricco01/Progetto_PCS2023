@@ -3,8 +3,7 @@
 
 #include <iostream>
 #include <cmath>
-#include <fstream>
-#include "Eigen/Eigen"
+#include "Eigen\Eigen"
 
 using namespace std;
 
@@ -66,7 +65,7 @@ public:
     array<int,3> adjacentIds = {-1, -1 , -1};
 
     Triangle() = default;
-    Triangle(const int& id, const Point& _p1, const Point& _p2, const Point& _p3);
+    Triangle(const int& id, const Point& p1, const Point& p2, const Point& p3);
 
     bool IsInTheCircle(const Point& d);
     bool IsInTheTriangle(const Point& d);

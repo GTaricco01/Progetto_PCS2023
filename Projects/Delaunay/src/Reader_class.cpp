@@ -5,8 +5,8 @@
 #include <fstream>
 #include <cmath>
 #include "Eigen/Eigen"
-using namespace ProjectLibrary;
 
+using namespace ProjectLibrary;
 
 vector<Point> Reader::MakeVector(const string& input)
 {
