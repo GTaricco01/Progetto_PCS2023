@@ -2,7 +2,8 @@
 #define __OPERATORS_TEST_H
 
 #include <gtest/gtest.h>
-#include "Delaunator_class.hpp"
+#include "Delaunator.hpp"
+#include "Operators.hpp"
 
 using namespace testing;
 using namespace ProjectLibrary;

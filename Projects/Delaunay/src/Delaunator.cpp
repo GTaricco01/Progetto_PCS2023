@@ -1,8 +1,9 @@
-#include "Delaunator_class.hpp"
 #include <iostream>
 #include <cmath>
 #include "Eigen/Eigen"
 #include <vector>
+#include "Delaunator.hpp"
+#include "Operators.hpp"
 
 using namespace Eigen;
 using namespace ProjectLibrary;

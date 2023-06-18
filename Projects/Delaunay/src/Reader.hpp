@@ -1,14 +1,13 @@
-#ifndef READER_CLASS_HPP
-#define READER_CLASS_HPP
+#ifndef __READER_HPP
+#define __READER_HPP
 
-
+#include "Delaunator.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "Delaunator_class.hpp"
-using namespace std;
-using namespace ProjectLibrary;
 
+using namespace std;
+namespace ProjectLibrary {
 class Reader
 {
 private:
@@ -20,7 +19,5 @@ public:
     Reader() = default;
     vector<Point> MakeVector(const string& input);
 };
-
-
-
-#endif // READER_CLASS_HPP
+}
+#endif // __READER_HPP

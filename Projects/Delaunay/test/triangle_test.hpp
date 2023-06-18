@@ -2,7 +2,7 @@
 #define __TRIANGLE_TEST_H
 
 #include <gtest/gtest.h>
-#include "Delaunator_class.hpp"
+#include "Delaunator.hpp"
 
 using namespace testing;
 using namespace ProjectLibrary;
