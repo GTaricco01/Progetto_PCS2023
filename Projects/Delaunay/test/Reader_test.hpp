@@ -11,7 +11,7 @@ using namespace ProjectLibrary;
 
 TEST(ImportDati, MakeVector)
 {
-    string input = "/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/punti.csv";
+    string input = "./Dataset/punti.csv";
     vector<Point> vec_exact = {
         {1,1},
         {2,3},
@@ -22,7 +22,7 @@ TEST(ImportDati, MakeVector)
     Reader vec_try;
     vector<Point> vvv;
     vvv = vec_try.MakeVector(input);
-    //EXPECT_EQ(vvv, vec_exact);
+    EXPECT_EQ(vvv, vec_exact);
 }
 
 TEST(ImportDati, Repetitions)
