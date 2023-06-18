@@ -3,19 +3,13 @@
 
 #include <gtest/gtest.h>
 #include "Delaunator.hpp"
-#include "Operators.hpp"
 
 using namespace testing;
 using namespace ProjectLibrary;
 
-TEST(a,b)
-{
-    EXPECT_EQ(1,1);
-}
 
 TEST(MetodiTriangolazione, Delaunator)
 {
-    cout << "cucu" << endl;
     vector<Point> vec_p = {
         {1,1},
         {4,2},

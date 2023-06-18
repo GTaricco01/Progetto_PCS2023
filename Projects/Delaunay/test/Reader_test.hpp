@@ -3,7 +3,6 @@
 
 #include <gtest/gtest.h>
 #include "Reader.hpp"
-#include "Operators.hpp"
 
 using namespace testing;
 using namespace ProjectLibrary;
@@ -11,7 +10,7 @@ using namespace ProjectLibrary;
 
 TEST(ImportDati, MakeVector)
 {
-    string input = "./Dataset/punti.csv";
+    string input = "/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/punti.csv";
     vector<Point> vec_exact = {
         {1,1},
         {2,3},
