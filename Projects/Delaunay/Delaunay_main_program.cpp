@@ -1,9 +1,8 @@
 #include <iostream>
-#include "Reader_class.hpp"
 #include <vector>
-#include "Delaunator_class.hpp"
 #include "Eigen/Eigen"
-
+#include "Delaunator.hpp"
+#include "Reader.hpp"
 using namespace std;
 using namespace ProjectLibrary;
 
@@ -63,6 +62,22 @@ int main() {
     Triangulation t;
     t.Delaunator(points);
     cout<<t;
+
+    /*
+    Point p1 = Point(0,0);
+    Point p2 = Point(1.5,0);
+    Point p3 = Point(2,1);
+    Point p4 = Point(1,1.5);
+    vector<Triangle> triangles;
+    vector<Triangle> triangles_flipped;
+    Triangulation tt;
+    triangles.push_back(Triangle(0,p1,p2,p3));
+    triangles.push_back(Triangle(1,p1,p3,p4));
+    triangles_flipped.push_back(Triangle(0,p1,p2,p4));
+    triangles_flipped.push_back(Triangle(1,p2,p3,p4));
+
+    tt.Flip(triangles[0].adjacentIds[0],)*/
+
     return 0;
 
 }

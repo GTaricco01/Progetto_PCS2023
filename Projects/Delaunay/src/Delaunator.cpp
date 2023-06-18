@@ -1,7 +1,9 @@
-#include "Delaunator_class.hpp"
 #include <iostream>
 #include <cmath>
 #include "Eigen/Eigen"
+#include <vector>
+#include "Delaunator.hpp"
+#include "Operators.hpp"
 
 using namespace Eigen;
 using namespace ProjectLibrary;
@@ -26,18 +28,23 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
     return (s >= 0);
 }
 
-/*bool Repetitions(const vector<Point>& p)
+vector<Point> Repetitions(vector<Point>& vecp)
 {
-    bool f = false;
-    Point first = p[0];
-    for (unsigned int i = 1; i < p.size(); i++)
+    for (unsigned int i = 0; i < vecp.size(); i++)
     {
-        if (p[i] == first)
+        for (unsigned int j = 0; j < vecp.size(); j++)
         {
-            p.
+            if (j != i)
+            {
+                if (vecp[j] == vecp[i])
+                {
+                    vecp.erase(vecp.begin()+j);
+                }
+            }
         }
     }
-}*/
+    return vecp;
+}
 
 //metodi Triangle: Costruttore IsInTheCircle IsIntTheTriangle
 Triangle::Triangle(const int& id, const Point& p1, const Point& p2, const Point& p3):
@@ -78,28 +85,7 @@ unsigned int Triangle::FindAdjacent(const int& id)
 
 }
 
-//metodi Triangulation: TriangleSharesEdge, Connect, Verify, Flip
-bool Triangulation::TrianglesShareEdge(const Triangle& t1, const Triangle& t2, array<Point,2>& point)
-{
-    unsigned int shared = 0;
-    if (t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3)
-    {
-        point[shared] = t1.p1;
-        shared++;
-    }
-    if (t1.p2 == t2.p1 || t1.p2 == t2.p2 || t1.p2 == t2.p3)
-    {
-        point[shared] = t1.p2;
-        shared++;
-    }
-    if (t1.p3 == t2.p1 || t1.p3 == t2.p2 || t1.p3 == t2.p3)
-    {
-        point[shared] = t1.p3;
-        shared++;
-    }
-    return shared == 2;
-}
-
+//metodi Triangulation: Connect, Verify, Flip
 
 list<int> Triangulation::Connect(const int& id, const Point& d)
 {
@@ -159,7 +145,6 @@ void Triangulation::Verify(list<int>& ids)
             }
         }
         ids.pop_front();
-
     }
 }
 
@@ -254,70 +239,10 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
                 }
             }
         }
-        // se tolgo questo messaggio crasha. Sono molto confuso
         // cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
-        cout<<endl;
+
     }
 
-    /*
-        //cout<<"Il punto P = ("<<p.x<<","<<p.y<<") è stato aggiunto con successo alla triangolazione."<<endl;
-
-    for (const Point& p : points)
-    {
-        vector<Triangle> invalidTriangles;
-        for (Triangle& t : triangles)
-        {
-
-            if (t.IsInTheCircle(p))
-                // verificare che cada anche nel triangolo
-                invalidTriangles.push_back(t);
-        }
-
-
-        // find the boundary edges of the polygon formed by invalid triangles
-        vector<pair<Point,Point>> boundaryEdges;
-        for (const Triangle& t : invalidTriangles)
-        {
-            //inserire controllo sui doppioni
-            boundaryEdges.emplace_back(t.p1, t.p2);
-            boundaryEdges.emplace_back(t.p2, t.p3);
-            boundaryEdges.emplace_back(t.p3, t.p1);
-        }
-
-        // remove invalid triangles from the triangulation
-        triangles.erase(remove_if(triangles.begin(), triangles.end(),
-                                  [&](Triangle& t)
-                                  {
-                                      return find(invalidTriangles.begin(),invalidTriangles.end(),t) != invalidTriangles.end();
-                                  }), triangles.end());
-
-        for (const auto& edge : boundaryEdges)
-        {
-            //aggiunto controllo flip
-            if (!(edge.first.x == 0 && edge.first.y == 0 && edge.second.x == 0 && edge.second.y == 0))
-                triangles.push_back(Triangle(edge.first, edge.second, p));
-        }
-    }
- * creare un metodo per verificare che due triangoli abbiano un lato in comune
- * for (triangolo1 : triangles)
- * {
- *     for (triangolo2 : triangles)
- *     {
- *         if (triangolo1 != triangolo2)
- *         {
- *            if (shareEdge(triangolo1, triangolo2)
- *            {
- *               if(!CondizioneDelaunay)
- *               {
- *                   faccio flip
- *               }
- *               else
- *               {continue;}
- *            }
- *         }
- *      }
- *  }
- *  */
     //rimozione super triangle iniziale
     triangles.erase(remove_if(triangles.begin(), triangles.end(),
                               [&](Triangle& t)
@@ -338,5 +263,4 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
 }
 
 
-} // namespace ProjectLibrary
-
+}

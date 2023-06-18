@@ -1,6 +1,8 @@
-#include "test_empty.hpp"
-
 #include <gtest/gtest.h>
+#include "Delaunay_test.hpp"
+#include "Operators_test.hpp"
+#include "Reader_test.hpp"
+#include "Triangle_test.hpp"
 
 int main(int argc, char *argv[])
 {
