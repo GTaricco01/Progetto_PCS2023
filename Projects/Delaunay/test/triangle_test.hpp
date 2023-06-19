@@ -70,4 +70,21 @@ TEST(MethodsTriangle, FindAdjacent)
     EXPECT_EQ(2,t2.FindAdjacent(0));
 }
 
+TEST(MetodiTriangolazione, Delaunator)
+{
+    vector<Point> vec_p = {
+        {1,1},
+        {4,2},
+        {2,3},
+        {3,5},
+        {6,4}
+    };
+    vector<Triangle> vec_t = {
+                              {Triangle(0,Point(1,1),Point(4,2),Point(2,3))},
+                              {Triangle(1,Point(4,2),Point(3,5),Point(2,3))},
+                              {Triangle(2,Point(4,2),Point(6,4),Point(3,5))},
+                              };
+    Triangulation t;
+    EXPECT_EQ(t.Delaunator(vec_p),vec_t);
+}
 #endif // __TRIANGLE_TEST_H

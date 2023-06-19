@@ -8,6 +8,7 @@ using namespace testing;
 using namespace ProjectLibrary;
 
 
+/*
 TEST(MetodiTriangolazione, Delaunator)
 {
     vector<Point> vec_p = {
@@ -25,7 +26,7 @@ TEST(MetodiTriangolazione, Delaunator)
     Triangulation t;
     EXPECT_EQ(t.Delaunator(vec_p),vec_t);
 }
-
+*/
 /*TEST(MetodiTriangolazione, Flip)
 {
     Point p1 = Point(0,0);
