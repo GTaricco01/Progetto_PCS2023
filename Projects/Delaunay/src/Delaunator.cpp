@@ -55,6 +55,7 @@ Triangle::Triangle(const int& id, const Point& p1, const Point& p2, const Point&
     angles[2] = acos((p1-p3)*(p2-p3)/(norm(p1-p3)*norm(p2-p3)));
 }
 
+//controllo che il punto d sia nel circocerchio
 bool Triangle::IsInTheCircle(const Point& d)
 {
     Matrix<double, 3, 3> mat;
@@ -65,11 +66,13 @@ bool Triangle::IsInTheCircle(const Point& d)
     return (mat.determinant() > 0);
 }
 
+//controllo che il punto d sia nel triangolo
 bool Triangle::IsInTheTriangle(const Point& d)
 {
     return (isCounter(p1, p2, d) && isCounter(p2, p3, d) && isCounter(p3, p1, d));
 }
 
+//ritorna l'indice del lato adiacente al triangolo id, in caso non lo trova (non dovrebbe succedere nel nostro codice) ritorna 3
 unsigned int Triangle::FindAdjacent(const int& id)
 {
     unsigned int j=0;
@@ -85,6 +88,7 @@ unsigned int Triangle::FindAdjacent(const int& id)
 
 //metodi Triangulation: Connect, Verify, Flip
 
+//connette il punto d ai vertici del triangolo che lo contiene
 list<int> Triangulation::Connect(const int& id, const Point& d)
 {
     Triangle t = triangles[id];
@@ -112,13 +116,15 @@ list<int> Triangulation::Connect(const int& id, const Point& d)
     triangles.push_back(t2);
     triangles.push_back(t3);
 
-    list<int> Ids;
-    Ids.push_back(id);
-    Ids.push_back(t2.id);
-    Ids.push_back(t3.id);
+    list<int> Ids = {id, t2.id, t3.id};
     return Ids;
 }
 
+// Verify controlla che sia verificata l'ipotesi di delaunay, ovvero che due triangoli adiacenti abbiano una somma minore di 180°
+// nel caso contrario Verify chiama il metodo flip.
+// Verify sfrutta una lista di Id dei triangoli, ogni volta che un triangolo supera il controllo viene eliminato dalla lista
+// se un due triangoli vengono fliappati, viene ripetuto il controllo sul triangolo corrente e viene aggiunto
+// alla lista l'id del triangolo adiacente
 void Triangulation::Verify(list<int>& ids)
 {
     while (!ids.empty())
@@ -147,7 +153,8 @@ void Triangulation::Verify(list<int>& ids)
 }
 
 
-
+//Flip effettua lo scambio l'operazione di flip tra i triangoli FirstId e SecondId lungo i lato adiacente, che si trova in
+//posizione i in FirstId e in posizione j in SecondId
 void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& SecondId, const unsigned int& j)
 {
     Triangle t = triangles[FirstId];
@@ -158,7 +165,6 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
     Triangle t1(FirstId, t_points[i], t_points[(i+1)%3], tAd_points[j]);
     Triangle t2(SecondId, t_points[i], tAd_points[j], t_points[(i+2)%3]);
 
-    //vedere le adiacenze
     t1.adjacentIds[0] = tAd.adjacentIds[(j+1)%3];
     t1.adjacentIds[1] = SecondId;
     t1.adjacentIds[2] = t.adjacentIds[(i+2)%3];
@@ -176,15 +182,6 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
     //Triangle& tNear2 = triangles[t2.adjacentIds[1]];
     //tNear2.adjacentIds[tNear2.FindAdjacent(FirstId)]=SecondId;
     triangles[t2.adjacentIds[1]].adjacentIds[triangles[t2.adjacentIds[1]].FindAdjacent(FirstId)]=SecondId;
-
-    /*
-    for (const Triangle& t : triangles)
-    {
-        cout << "(" << t.p1.x << ", " << t.p1.y << ") "
-             << "(" << t.p2.x << ", " << t.p2.y << ") "
-             << "(" << t.p3.x << ", " << t.p3.y << ")" << endl;
-        cout << "Adiacenze: " << t.adjacentIds[0] << "  " << t.adjacentIds[1] << "  " << t.adjacentIds[2] << endl;
-    }*/
 }
 
 
@@ -192,6 +189,8 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
 vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
 {
     unsigned int n = points.size();
+    triangles.reserve(2*n); //allocazione preventiv di memoria
+
     // define super triangle
     double minX, minY, maxX, maxY;
     minX = points[0].x;
@@ -220,6 +219,7 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
 
     // così ho la garanzia che ogni punto del dataset sia racchiuso dal triangolo
     triangles.push_back(Triangle(0, p1, p2, p3));
+    list<int> newIds;
 
     for (const Point& p : points)
     {
@@ -231,13 +231,12 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
             {
                 if (t.IsInTheTriangle(p))
                 {
-                    list<int> newIds = Connect(id, p);
+                    newIds = Connect(id, p);
                     Verify(newIds); // qui viene chiamata la funzione di Flip()
                     break;
                 }
             }
         }
-        // cout<<"Il punto p= ("<<p.x<<","<<p.y<<") e' stato aggiunto con successo alla triangolazione"<<endl;
 
     }
 

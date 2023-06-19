@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include "Eigen/Eigen"
 #include "Delaunator.hpp"
 #include "Reader.hpp"
@@ -31,7 +30,7 @@ int main() {
     test_flip.Flip(1, 0, 2, 2);
     */
 
-    /*vector<Point> points1 = {
+    vector<Point> points1 = {
         {1, 1},
         {2, 3},
         {4, 2},
@@ -40,7 +39,8 @@ int main() {
     };
     Triangulation t1;
     t1.Delaunator(points1);
-    cout<<t1;*/
+    cout<<t1;
+
 
     /*
     vector<Point> points2 = {
@@ -56,12 +56,13 @@ int main() {
     cout<<t2;
     */
 
-
+    /*
     Reader r;
     vector<Point> points = r.MakeVector("./Dataset/Test2.csv");
     Triangulation t;
     t.Delaunator(points);
     cout<<t;
+    */
 
     /*
     Point p1 = Point(0,0);
