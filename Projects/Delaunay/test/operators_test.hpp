@@ -8,7 +8,7 @@
 using namespace testing;
 using namespace ProjectLibrary;
 
-TEST(Operators, Differenza)
+TEST(Operators, Difference)
 {
     Point p1(1,1);
     Point diff(0,0);
