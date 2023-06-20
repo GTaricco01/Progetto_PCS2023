@@ -4,6 +4,7 @@
 #include "Delaunator.hpp"
 
 namespace ProjectLibrary {
+
 // override operatore di differenza fra oggetti Point
 inline Point operator - (const Point& p1, const Point& p2)
 {
@@ -39,6 +40,7 @@ inline bool operator == (const Triangle& t1, const Triangle& t2)
         (t1.p1 == t2.p3 && t1.p2 == t2.p1 && t1.p3 == t2.p2) ||
         (t1.p1 == t2.p3 && t1.p2 == t2.p2 && t1.p3 == t2.p1));
 }
+
 // creazione funzione inline NORMA per oggetto Point
 inline double norm(const Point& p)
 {
@@ -63,7 +65,6 @@ inline bool operator == (const vector<Point>& vec_p1, const vector<Point>& vec_p
 }
 
 // operatore di uguaglianza vettori di triangoli
-
 inline bool operator == (const vector<Triangle>& vec_t1, const vector<Triangle>& vec_t2)
 {
     unsigned int n = vec_t1.size(); // se n = 0 considero gli oggetti uguali
@@ -79,8 +80,6 @@ inline bool operator == (const vector<Triangle>& vec_t1, const vector<Triangle>&
     }
     return equal;
 }
-
-
-
 }
+
 #endif // __OPERATORS_HPP

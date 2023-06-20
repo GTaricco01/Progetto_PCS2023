@@ -8,6 +8,7 @@
 
 using namespace std;
 namespace ProjectLibrary {
+
 class Reader
 {
 private:
@@ -20,4 +21,5 @@ public:
     vector<Point> MakeVector(const string& input);
 };
 }
+
 #endif // __READER_HPP

@@ -70,7 +70,7 @@ TEST(MethodsTriangle, FindAdjacent)
     EXPECT_EQ(2,t2.FindAdjacent(0));
 }
 
-TEST(MetodiTriangolazione, Delaunator)
+TEST(MethodsTriangulation, Delaunator)
 {
     vector<Point> vec_p = {
         {1,1},
