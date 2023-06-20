@@ -141,9 +141,9 @@ void Triangulation::Verify(list<int>& ids)
                 if(t.angles[i]+tAd.angles[j] > M_PI)
                 {
                     Flip(t.id, i, tAd.id, j);
-                    ids.push_back(id);
+                    //ids.push_back(id);
                     ids.push_back(tAd.id);
-                    ids.pop_front();
+                    //ids.pop_front();
                     break;
                 }
             }
