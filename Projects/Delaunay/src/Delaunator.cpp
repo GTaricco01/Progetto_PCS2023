@@ -160,8 +160,6 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
     t1.adjacentIds[2] = t.adjacentIds[(i+2)%3];
     triangles[FirstId] = t1;
     //aggiorna il triangolo adiacente sul primo lato
-    //Triangle& tNear1 = triangles[t1.adjacentIds[0]];
-    //tNear1.adjacentIds[tNear1.FindAdjacent(SecondId)]=FirstId;
     triangles[t1.adjacentIds[0]].adjacentIds[triangles[t1.adjacentIds[0]].FindAdjacent(SecondId)]=FirstId;
 
     t2.adjacentIds[0] = tAd.adjacentIds[(j+2)%3];
@@ -169,8 +167,6 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
     t2.adjacentIds[2] = FirstId;
     triangles[SecondId] = t2;
     //aggiorna il triangolo adiacente al secondo lato
-    //Triangle& tNear2 = triangles[t2.adjacentIds[1]];
-    //tNear2.adjacentIds[tNear2.FindAdjacent(FirstId)]=SecondId;
     triangles[t2.adjacentIds[1]].adjacentIds[triangles[t2.adjacentIds[1]].FindAdjacent(FirstId)]=SecondId;
 }
 
