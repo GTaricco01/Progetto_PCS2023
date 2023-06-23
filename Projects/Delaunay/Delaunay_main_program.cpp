@@ -58,7 +58,7 @@ int main() {
     */
 
     Reader r;
-    vector<Point> points = r.MakeVector("./Dataset/Test2.csv");
+    vector<Point> points = r.MakeVector("/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/prova_punti.txt");
     Triangulation t;
     t.Delaunator(points);
     cout<<t;

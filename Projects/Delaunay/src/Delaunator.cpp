@@ -9,17 +9,7 @@ using namespace ProjectLibrary;
 
 namespace ProjectLibrary
 {
-
-//funzioni su punti: Collinear IsCounter
-bool Collinear(const Point &p1, const Point &p2, const Point &p3, const double& tol)
-{
-    // sono collineari se l'area del triangolo è minore della tolleranza
-    double s;
-    s = prod(p2-p1, p3-p1);
-
-    return (abs(s) <= tol);
-}
-
+//funzioni cotrollo punti: isCounter
 bool isCounter(const Point& p1, const Point& p2, const Point& p3)
 {
     double s;
@@ -188,22 +178,23 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
 
 vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
 {
+    vector<Point> points_norep = Repetitions(points);
     unsigned int n = points.size();
     triangles.reserve(2*n); //allocazione preventiv di memoria
 
     // define super triangle
     double minX, minY, maxX, maxY;
-    minX = points[0].x;
-    minY = points[0].y;
+    minX = points_norep[0].x;
+    minY = points_norep[0].y;
     maxX = minX;
     maxY = minY;
 
     for (unsigned int i = 1; i < n; i++)
     {
-        minX = min(minX, points[i].x);
-        minY = min(minY, points[i].y);
-        maxX = max(maxX, points[i].x);
-        maxY = max(maxY, points[i].y);
+        minX = min(minX, points_norep[i].x);
+        minY = min(minY, points_norep[i].y);
+        maxX = max(maxX, points_norep[i].x);
+        maxY = max(maxY, points_norep[i].y);
     }
 
     // width e height della scatola che racchiude i punti
@@ -221,7 +212,7 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
     triangles.push_back(Triangle(0, p1, p2, p3));
     list<int> newIds;
 
-    for (const Point& p : points)
+    for (const Point& p : points_norep)
     {
         int n = triangles.size();
         for (int id = 0; id < n; id++)
