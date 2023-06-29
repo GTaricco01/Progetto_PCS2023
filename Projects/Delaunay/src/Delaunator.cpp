@@ -62,7 +62,7 @@ bool Triangle::IsInTheTriangle(const Point& d)
     return (isCounter(p1, p2, d) && isCounter(p2, p3, d) && isCounter(p3, p1, d));
 }
 
-//ritorna l'indice del lato adiacente al triangolo id, in caso non lo trova (non dovrebbe succedere nel nostro codice) ritorna 3
+//ritorna l'indice del lato adiacente al triangolo id, in caso non lo trovasse (non dovrebbe succedere nel nostro codice) ritorna 3
 unsigned int Triangle::FindAdjacent(const int& id)
 {
     unsigned int j=0;
@@ -142,7 +142,6 @@ void Triangulation::Verify(list<int>& ids)
     }
 }
 
-
 //Flip effettua lo scambio l'operazione di flip tra i triangoli FirstId e SecondId lungo i lato adiacente, che si trova in
 //posizione i in FirstId e in posizione j in SecondId
 void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& SecondId, const unsigned int& j)
@@ -172,13 +171,12 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
 
 
 
-vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
+vector<Triangle> Triangulation::Delaunator(vector<Point>& points)
 {
     vector<Point> points_norep = Repetitions(points);
     unsigned int n = points.size();
-    triangles.reserve(2*n); //allocazione preventiv di memoria
+    triangles.reserve(2*n); //allocazione preventiva di memoria
 
-    // define super triangle
     double minX, minY, maxX, maxY;
     minX = points_norep[0].x;
     minY = points_norep[0].y;
@@ -204,7 +202,7 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
     Point p2(maxX + 2 * dx, minY - dy / 2);
     Point p3(midX, 2 * maxY + dy);
 
-    // così ho la garanzia che ogni punto del dataset sia racchiuso dal triangolo
+    // creazione del Supertriangolo
     triangles.push_back(Triangle(0, p1, p2, p3));
     list<int> newIds;
 
@@ -219,7 +217,7 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
                 if (t.IsInTheTriangle(p))
                 {
                     newIds = Connect(id, p);
-                    Verify(newIds); // qui viene chiamata la funzione di Flip()
+                    Verify(newIds);
                     break;
                 }
             }
@@ -242,9 +240,10 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points) // delaunator
                                          t.p3 == p3;
 
                               }), triangles.end());
-
+    for (unsigned int i = 0; i < triangles.size(); i++)
+    {
+        triangles[i].id = i;
+    }
     return triangles;
 }
-
-
 }

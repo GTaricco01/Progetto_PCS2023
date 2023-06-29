@@ -80,6 +80,26 @@ inline bool operator == (const vector<Triangle>& vec_t1, const vector<Triangle>&
     }
     return equal;
 }
+
+// operatore di uguaglianza tra liste di interi
+inline bool operator == (const list<int>& l1, const list<int>& l2)
+{
+    unsigned int n = l1.size();
+    bool equal = true;
+
+    for (int elem1 : l1)
+    {
+        for (int elem2 : l2)
+        {
+            if (!(elem1 == elem2))
+            {
+                equal = false;
+                break;
+            }
+        }
+    }
+    return equal;
+}
 }
 
 #endif // __OPERATORS_HPP

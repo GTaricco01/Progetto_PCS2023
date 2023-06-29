@@ -1,11 +1,11 @@
-#include "Reader.hpp"
 #include <sstream>
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include "Delaunator.hpp"
 #include "Eigen/Eigen"
 
+#include "Delaunator.hpp"
+#include "Reader.hpp"
 
 using namespace ProjectLibrary;
 
