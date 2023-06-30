@@ -41,9 +41,9 @@ struct Triangle
     friend ostream& operator << (ostream& os, const Triangle& t)
     {
         os << "Id: " << t.id
-           << " (" << t.p1.x << ", " << t.p1.y << ")"
-           << " (" << t.p2.x << ", " << t.p2.y << ")"
-           << " (" << t.p3.x << ", " << t.p3.y << ")";
+           << ". P1 = (" << t.p1.x << ", " << t.p1.y << ")"
+           << ", P2 = (" << t.p2.x << ", " << t.p2.y << ")"
+           << ", P3 = (" << t.p3.x << ", " << t.p3.y << ").";
         return os;
     }
     friend class Triangulation;
