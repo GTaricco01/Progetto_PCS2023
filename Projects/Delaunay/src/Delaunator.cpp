@@ -46,7 +46,7 @@ Triangle::Triangle(const int& id, const Point& p1, const Point& p2, const Point&
 }
 
 //controllo che il punto d sia nel circocerchio
-bool Triangle::IsInTheCircle(const Point& d)
+bool Triangle::IsInTheCircle(const Point& d) const
 {
     Matrix<double, 3, 3> mat;
     mat << p1.x-d.x, p1.y-d.y, (p1.x-d.x)*(p1.x-d.x) + (p1.y-d.y)*(p1.y-d.y),
@@ -57,13 +57,13 @@ bool Triangle::IsInTheCircle(const Point& d)
 }
 
 //controllo che il punto d sia nel triangolo
-bool Triangle::IsInTheTriangle(const Point& d)
+bool Triangle::IsInTheTriangle(const Point& d) const
 {
     return (isCounter(p1, p2, d) && isCounter(p2, p3, d) && isCounter(p3, p1, d));
 }
 
 //ritorna l'indice del lato adiacente al triangolo id, in caso non lo trovasse (non dovrebbe succedere nel nostro codice) ritorna 3
-unsigned int Triangle::FindAdjacent(const int& id)
+unsigned int Triangle::FindAdjacent(const int& id) const
 {
     unsigned int j=0;
     while (j<3)

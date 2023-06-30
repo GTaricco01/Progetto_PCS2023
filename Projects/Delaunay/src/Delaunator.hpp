@@ -34,9 +34,9 @@ struct Triangle
     array<double,3> angles;
     array<int,3> adjacentIds = {-1, -1 , -1};
 
-    bool IsInTheCircle(const Point& d);
-    bool IsInTheTriangle(const Point& d);
-    unsigned int FindAdjacent(const int& id);
+    bool IsInTheCircle(const Point& d) const;
+    bool IsInTheTriangle(const Point& d) const;
+    unsigned int FindAdjacent(const int& id) const;
 
     friend ostream& operator << (ostream& os, const Triangle& t)
     {
