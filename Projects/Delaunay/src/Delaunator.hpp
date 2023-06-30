@@ -21,9 +21,6 @@ bool Collinear(const Point& p1, const Point& p2, const Point& p3, const double &
 // controlla se i punti sono ordinati in senso antiorario
 bool isCounter(const Point& p1, const Point& p2, const Point& p3);
 
-// controlla se nel vettore di input sono presenti ripetizioni
-vector<Point> Repetitions(vector<Point>& p);
-
 struct Triangle
 {
     Triangle() = default;

@@ -10,7 +10,7 @@ using namespace ProjectLibrary;
 
 TEST(ImportDati, MakeVector)
 {
-    string input = "/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/punti.csv";
+    string input = "./Dataset/punti.csv";
     vector<Point> vec_exact = {
         {1,1},
         {2,3},
@@ -31,12 +31,14 @@ TEST(ImportDati, Repetitions)
         {0,1},
         {0,1}
     };
+    Reader try_repetitions(vec_rep);
+
     vector<Point> vec_no_rep = {
         {0,0},
         {0,1}
     };
 
-    EXPECT_EQ(Repetitions(vec_rep),vec_no_rep);
+    EXPECT_EQ(try_repetitions.cutRepetitions(),vec_no_rep);
 }
 
 #endif // __READER_TEST_H

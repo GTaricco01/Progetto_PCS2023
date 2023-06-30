@@ -3,6 +3,7 @@
 #include "Eigen/Eigen"
 #include "Delaunator.hpp"
 #include "Operators.hpp"
+#include "Reader.hpp"
 
 using namespace Eigen;
 using namespace ProjectLibrary;
@@ -15,24 +16,6 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
     double s;
     s = prod(p2-p1, p3-p1);
     return (s >= 0);
-}
-
-vector<Point> Repetitions(vector<Point>& vecp)
-{
-    for (unsigned int i = 0; i < vecp.size(); i++)
-    {
-        for (unsigned int j = 0; j < vecp.size(); j++)
-        {
-            if (j != i)
-            {
-                if (vecp[j] == vecp[i])
-                {
-                    vecp.erase(vecp.begin()+j);
-                }
-            }
-        }
-    }
-    return vecp;
 }
 
 //metodi Triangle: Costruttore IsInTheCircle IsIntTheTriangle
@@ -173,22 +156,22 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
 
 vector<Triangle> Triangulation::Delaunator(vector<Point>& points)
 {
-    vector<Point> points_norep = Repetitions(points);
+    //vector<Point> points_norep = Repetitions(points);
     unsigned int n = points.size();
     triangles.reserve(2*n); //allocazione preventiva di memoria
 
     double minX, minY, maxX, maxY;
-    minX = points_norep[0].x;
-    minY = points_norep[0].y;
+    minX = points[0].x;
+    minY = points[0].y;
     maxX = minX;
     maxY = minY;
 
     for (unsigned int i = 1; i < n; i++)
     {
-        minX = min(minX, points_norep[i].x);
-        minY = min(minY, points_norep[i].y);
-        maxX = max(maxX, points_norep[i].x);
-        maxY = max(maxY, points_norep[i].y);
+        minX = min(minX, points[i].x);
+        minY = min(minY, points[i].y);
+        maxX = max(maxX, points[i].x);
+        maxY = max(maxY, points[i].y);
     }
 
     // width e height della scatola che racchiude i punti
@@ -206,7 +189,7 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points)
     triangles.push_back(Triangle(0, p1, p2, p3));
     list<int> newIds;
 
-    for (const Point& p : points_norep)
+    for (const Point& p : points)
     {
         int n = triangles.size();
         for (int id = 0; id < n; id++)
