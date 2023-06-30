@@ -14,10 +14,7 @@ struct Point
     double x, y;
     Point(double x = 0, double y = 0) : x(x), y(y){}
 };
-/*
-// controlla se i punti sono collineari
-bool Collinear(const Point& p1, const Point& p2, const Point& p3, const double &tol = 1e-5);
-*/
+
 // controlla se i punti sono ordinati in senso antiorario
 bool isCounter(const Point& p1, const Point& p2, const Point& p3);
 

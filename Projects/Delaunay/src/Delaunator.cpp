@@ -156,7 +156,8 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
 
 vector<Triangle> Triangulation::Delaunator(vector<Point>& points)
 {
-    //vector<Point> points_norep = Repetitions(points);
+    Reader r_try;
+    vector<Point> points_norep = r_try.cutRepetitions();
     unsigned int n = points.size();
     triangles.reserve(2*n); //allocazione preventiva di memoria
 
