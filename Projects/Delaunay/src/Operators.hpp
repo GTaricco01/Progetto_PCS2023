@@ -82,22 +82,31 @@ inline bool operator == (const vector<Triangle>& vec_t1, const vector<Triangle>&
 }
 
 // operatore di uguaglianza tra liste di interi
-inline bool operator == (const list<int>& l1, const list<int>& l2)
+template<typename T>
+inline bool operator == (const list<T>& l1, const list<T>& l2)
 {
-    bool equal = true;
-
-    for (int elem1 : l1)
+    unsigned int n1 = l1.size();
+    unsigned int n2 = l2.size();
+    unsigned int f = 0;
+    if (n1 == n2)
     {
-        for (int elem2 : l2)
+        for (T elem1 : l1)
         {
-            if (!(elem1 == elem2))
+            for (T elem2 : l2)
             {
-                equal = false;
-                break;
+                if(elem1 == elem2)
+                {
+                    f++;
+                    break;
+                }
             }
         }
     }
-    return equal;
+    else
+    {
+        cout << "The two lists have different size" << endl;
+    }
+    return f == n1;
 }
 }
 
