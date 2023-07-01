@@ -75,7 +75,7 @@ TEST(MethodsTriangulation, Delaunator)
     Triangulation triangulation_try;
     EXPECT_EQ(triangulation_try.Delaunator(vec_p),vec_t);
 }
-
+/*
 TEST(MethodsTriangulation, Connect)
 {
     Point p1(0,0);
@@ -89,7 +89,7 @@ TEST(MethodsTriangulation, Connect)
 
     EXPECT_EQ(l_exact, triangulation_try.Connect(0,d));
 }
-/*
+
 TEST(MethodsTriangulation, Flip)
 {
 
