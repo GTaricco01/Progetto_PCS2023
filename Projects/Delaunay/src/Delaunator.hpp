@@ -6,7 +6,6 @@
 #include "Eigen/Eigen"
 
 using namespace std;
-
 namespace ProjectLibrary {
 
 struct Point

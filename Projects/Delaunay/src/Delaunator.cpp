@@ -7,7 +7,7 @@
 
 using namespace Eigen;
 using namespace ProjectLibrary;
-
+double tol = 1e-5;
 namespace ProjectLibrary
 {
 //funzioni cotrollo punti: isCounter
@@ -15,7 +15,7 @@ bool isCounter(const Point& p1, const Point& p2, const Point& p3)
 {
     double s;
     s = prod(p2-p1, p3-p1);
-    return (s >= 0);
+    return (s >= tol);
 }
 
 //metodi Triangle: Costruttore IsInTheCircle IsIntTheTriangle
@@ -36,7 +36,7 @@ bool Triangle::IsInTheCircle(const Point& d) const
         p2.x-d.x, p2.y-d.y, (p2.x-d.x)*(p2.x-d.x) + (p2.y-d.y)*(p2.y-d.y),
         p3.x-d.x, p3.y-d.y, (p3.x-d.x)*(p3.x-d.x) + (p3.y-d.y)*(p3.y-d.y);
 
-    return (mat.determinant() > 0);
+    return (mat.determinant() > tol);
 }
 
 //controllo che il punto d sia nel triangolo
