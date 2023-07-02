@@ -39,7 +39,7 @@ struct Triangle
            << ", P3 = (" << t.p3.x << ", " << t.p3.y << ").";
         return os;
     }
-    friend class Triangulation;
+    //friend class Triangulation;
 
 };
 
