@@ -34,7 +34,7 @@
 \usepackage{indentfirst}
 
 \title{Report Triangolazione di Delaunay}
-\author{Alessandro Di Grazia S282852,  Gabriele Taricco S281770, Diana Decurti S283688}
+\author{Alessandro Di Grazia s282852,  Gabriele Taricco s281770, Diana Decurti s283688}
 \date{} 
 
 \begin{document}
@@ -233,4 +233,19 @@ L'algoritmo di triangolazione descritto e implementato è largamente utilizzato 
 	\item[2.] L'inserimento sequenziale del punti viene ripetuto $n$ volte e per ogni punto viene applicato  l'algoritmo di Bowyer\-Watson che ha complessità $\Omega( \log n)$.
 \end{itemize}
 In conclusione,  l'algoritmo ha costo computazionale dell'ordine di $\Omega(n\cdot \log n)$.
+
+\section{Diagramma UML e rappresentazione della triangolazione}
+Il diagramma UML (\emph{Unified Modelling Language}) rappresenta un linguaggio standard per visualizzare e documentare più agevolmente le componenti logiche di un software.  Segue il diagramma UML relativo al progetto.
+
+\begin{center}
+	\includegraphics[width=.8\textwidth]{/Users/gabry/Desktop/Progetto_PCS/Projects/UML_Progetto_PCS.png}
+\end{center}
+
+Inoltre,  è utile al fine di verificare la correttezza dell'algoritmo,  visualizzare una triangolazione effettuata da MATLAB a partire da un semplice set di punti ideato come prova.  
+
+\begin{center}
+	\includegraphics[width=.8\textwidth]{/Users/gabry/Desktop/Progetto_PCS/Projects/Triangolazione_prova.png}
+\end{center}
+
+Si noti che nessun punto della triangolazione cade all'interno di alcun circocerchio.
 \end{document}
