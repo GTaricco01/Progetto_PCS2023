@@ -68,35 +68,77 @@ TEST(MethodsTriangulation, Delaunator)
         {6,4}
     };
     vector<Triangle> vec_t = {
-                              {Triangle(0,Point(6,4),Point(3,5),Point(4,2))},
-                              {Triangle(1,Point(1,1),Point(4,2),Point(2,3))},
-                              {Triangle(2,Point(2,3),Point(4,2),Point(3,5))},
+                              {Triangle(0,Point(6.,4.),Point(3.,5.),Point(4.,2.))},
+                              {Triangle(1,Point(1.,1.),Point(4.,2.),Point(2.,3.))},
+                              {Triangle(2,Point(2.,3.),Point(4.,2.),Point(3.,5.))},
                               };
     Triangulation triangulation_try;
     EXPECT_EQ(triangulation_try.Delaunator(vec_p),vec_t);
 }
-/*
+
+
 TEST(MethodsTriangulation, Connect)
 {
-    Point p1(0,0);
-    Point p2(2,0);
-    Point p3(0,1);
-    Point d(1,1);
-    Triangle (0,p1,p2,p3);
+    Point p1(0.,0.);
+    Point p2(2.,0.);
+    Point p3(0.,3.);
+    Point d(1.,1.);
+    Triangle tstart(0,p1,p2,p3);
 
-    Triangulation triangulation_try;
+    Triangulation triangulation_try({tstart});
     list<int> l_exact = {0, 1, 2};
+    vector<Triangle> triangulation_exact = {Triangle(0,p1,p2,d),Triangle(1,p2,p3,d),Triangle(2,p3,p1,d)};
 
     EXPECT_EQ(l_exact, triangulation_try.Connect(0,d));
+    EXPECT_EQ(triangulation_try.getTriangles(), triangulation_exact);
 }
 
+/*
 TEST(MethodsTriangulation, Flip)
 {
+    Point p1(0.,0.);
+    Point p2(2.,0.);
+    Point p3(0.,3.);
+    Point p4(2.,2.);
 
+    Triangle t1(0,p1,p2,p3);
+    t1.adjacentIds = {1,-1,-1};
+    Triangle t2(1,p2,p4,p3);
+    t2.adjacentIds = {-1,0,-1};
+    Triangulation triangulation_try({t1, t2});
+
+    Triangle t1_flipped(0,p1,p2,p4);
+    Triangle t2_flipped(0,p1,p4,p3);
+    vector<Triangle> triangulation_exact = {t1_flipped, t2_flipped};
+
+    triangulation_try.Flip(0,0,1,1);
+    EXPECT_EQ(triangulation_try.getTriangles(), triangulation_exact);
 }
+*/
 
+/*
 TEST(MethodsTriangulation, Verify)
 {
+    Point p1(0.,0.);
+    Point p2(2.,0.);
+    Point p3(0.,3.);
+    Point p4(2.,2.);
 
-}*/
+    Triangle t1(0,p1,p2,p3);
+    t1.adjacentIds = {1,-1,-1};
+    Triangle t2(1,p2,p4,p3);
+    t2.adjacentIds = {-1,0,-1};
+    Triangulation triangulation_try({t1, t2});
+
+    Triangle t1_flipped(0,p1,p2,p4);
+    Triangle t2_flipped(0,p1,p4,p3);
+    vector<Triangle> triangulation_exact = {t1_flipped, t2_flipped};
+
+    list<int> to_verify = {0, 1};
+
+    triangulation_try.Verify(to_verify);
+    EXPECT_EQ(triangulation_try.getTriangles(), triangulation_exact);
+}
+*/
+
 #endif // __TRIANGULATION_TEST_H
