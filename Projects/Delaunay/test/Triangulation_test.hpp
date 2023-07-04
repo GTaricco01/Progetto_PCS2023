@@ -76,7 +76,6 @@ TEST(MethodsTriangulation, Delaunator)
     EXPECT_EQ(triangulation_try.Delaunator(vec_p),vec_t);
 }
 
-
 TEST(MethodsTriangulation, Connect)
 {
     Point p1(0.,0.);
@@ -93,7 +92,6 @@ TEST(MethodsTriangulation, Connect)
     EXPECT_EQ(triangulation_try.getTriangles(), triangulation_exact);
 }
 
-/*
 TEST(MethodsTriangulation, Flip)
 {
     Point p1(0.,0.);
@@ -114,9 +112,8 @@ TEST(MethodsTriangulation, Flip)
     triangulation_try.Flip(0,0,1,1);
     EXPECT_EQ(triangulation_try.getTriangles(), triangulation_exact);
 }
-*/
 
-/*
+
 TEST(MethodsTriangulation, Verify)
 {
     Point p1(0.,0.);
@@ -139,6 +136,5 @@ TEST(MethodsTriangulation, Verify)
     triangulation_try.Verify(to_verify);
     EXPECT_EQ(triangulation_try.getTriangles(), triangulation_exact);
 }
-*/
 
 #endif // __TRIANGULATION_TEST_H

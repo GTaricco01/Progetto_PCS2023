@@ -1,11 +1,11 @@
 #ifndef __READER_HPP
 #define __READER_HPP
 
-#include "Delaunator.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
+#include "Delaunator.hpp"
 using namespace std;
 namespace ProjectLibrary {
 
@@ -23,7 +23,6 @@ public:
     vector<Point> MakeVector(const string& input);
     vector<Point> cutRepetitions();
 };
-
 }
 
 #endif // __READER_HPP

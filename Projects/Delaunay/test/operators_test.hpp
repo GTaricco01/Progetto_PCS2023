@@ -2,6 +2,7 @@
 #define __OPERATORS_TEST_H
 
 #include <gtest/gtest.h>
+
 #include "Delaunator.hpp"
 #include "Operators.hpp"
 

@@ -24,6 +24,11 @@ vector<Point> Reader::MakeVector(const string& input)
         points.push_back(Point(x,y));
     }
     file.close();
+
+    if (points.empty())
+    {
+        throw invalid_argument("Il file di input deve essere non vuoto.");
+    }
     return points;
 }
 

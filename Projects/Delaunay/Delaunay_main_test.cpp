@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "Operators_test.hpp"
 #include "Reader_test.hpp"
 #include "Triangulation_test.hpp"

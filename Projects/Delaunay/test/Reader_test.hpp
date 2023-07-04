@@ -2,6 +2,7 @@
 #define __READER_TEST_H
 
 #include <gtest/gtest.h>
+
 #include "Reader.hpp"
 
 using namespace testing;
@@ -10,7 +11,7 @@ using namespace ProjectLibrary;
 
 TEST(ImportDati, MakeVector)
 {
-    string input = "./Dataset/punti.csv";
+    string input = "/Users/gabry/Desktop/Progetto_PCS/Projects/Delaunay/Dataset/punti.csv";
     vector<Point> vec_exact = {
         {1,1},
         {2,3},

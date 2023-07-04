@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "Eigen/Eigen"
+
 #include "Delaunator.hpp"
 #include "Operators.hpp"
 #include "Reader.hpp"
@@ -72,8 +73,6 @@ list<int> Triangulation::Connect(const int& id, const Point& d)
     t1.adjacentIds[0] = t2.id;
     t1.adjacentIds[1] = t3.id;
     t1.adjacentIds[2] = t.adjacentIds[2];
-    //qui l'id è già giusto
-    //triangles[t.adjacentIds[2]].adjacentIds[triangles[t.adjacentIds[2]].FindAdjacent(id)]=id;
 
     t2.adjacentIds[0] = t3.id;
     t2.adjacentIds[1] = t1.id;
@@ -114,9 +113,7 @@ void Triangulation::Verify(list<int>& ids)
                 if(t.angles[i]+tAd.angles[j] > M_PI)
                 {
                     Flip(t.id, i, tAd.id, j);
-                    //ids.push_back(id);
                     ids.push_back(tAd.id);
-                    //ids.pop_front();
                     break;
                 }
             }

@@ -39,8 +39,6 @@ struct Triangle
            << ", P3 = (" << t.p3.x << ", " << t.p3.y << ").";
         return os;
     }
-    //friend class Triangulation;
-
 };
 
 class Triangulation
@@ -62,10 +60,10 @@ public:
     {
         for (const Triangle& t : tt.triangles)
             os << t << endl;
+        cout << endl;
         return os;
     }
 };
 }
 
 #endif // __DELAUNATOR_HPP
-
