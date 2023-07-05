@@ -21,7 +21,7 @@ public:
     Reader(const vector<Point>& points): points(points){}
 
     vector<Point> MakeVector(const string& input);
-    vector<Point> cutRepetitions();
+    vector<Point> cutRepetitions(vector<Point>& points);
 };
 }
 

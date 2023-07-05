@@ -39,7 +39,7 @@ TEST(ImportDati, Repetitions)
         {0,1}
     };
 
-    EXPECT_EQ(try_repetitions.cutRepetitions(),vec_no_rep);
+    EXPECT_EQ(try_repetitions.cutRepetitions(vec_rep),vec_no_rep);
 }
 
 #endif // __READER_TEST_H

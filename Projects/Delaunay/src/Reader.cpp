@@ -32,7 +32,7 @@ vector<Point> Reader::MakeVector(const string& input)
     return points;
 }
 
-vector<Point> Reader::cutRepetitions()
+vector<Point> Reader::cutRepetitions(vector<Point>& points)
 {
     for (unsigned int i = 0; i < points.size(); i++)
     {

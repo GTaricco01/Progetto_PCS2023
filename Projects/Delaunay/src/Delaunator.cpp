@@ -154,22 +154,22 @@ void Triangulation::Flip(const int& FirstId, const unsigned int& i ,const int& S
 vector<Triangle> Triangulation::Delaunator(vector<Point>& points)
 {
     Reader r_try;
-    vector<Point> points_norep = r_try.cutRepetitions();
-    unsigned int n = points.size();
+    vector<Point> points_norep = r_try.cutRepetitions(points);
+    unsigned int n = points_norep.size();
     triangles.reserve(2*n); //allocazione preventiva di memoria
 
     double minX, minY, maxX, maxY;
-    minX = points[0].x;
-    minY = points[0].y;
+    minX = points_norep[0].x;
+    minY = points_norep[0].y;
     maxX = minX;
     maxY = minY;
 
     for (unsigned int i = 1; i < n; i++)
     {
-        minX = min(minX, points[i].x);
-        minY = min(minY, points[i].y);
-        maxX = max(maxX, points[i].x);
-        maxY = max(maxY, points[i].y);
+        minX = min(minX, points_norep[i].x);
+        minY = min(minY, points_norep[i].y);
+        maxX = max(maxX, points_norep[i].x);
+        maxY = max(maxY, points_norep[i].y);
     }
 
     // width e height della scatola che racchiude i punti
@@ -187,7 +187,7 @@ vector<Triangle> Triangulation::Delaunator(vector<Point>& points)
     triangles.push_back(Triangle(0, p1, p2, p3));
     list<int> newIds;
 
-    for (const Point& p : points)
+    for (const Point& p : points_norep)
     {
         int n = triangles.size();
         for (int id = 0; id < n; id++)
