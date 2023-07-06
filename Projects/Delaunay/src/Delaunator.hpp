@@ -49,7 +49,7 @@ private:
 public:
     Triangulation() = default;
     Triangulation(const vector<Triangle>& triangles): triangles(triangles) {}
-    vector<Triangle> getTriangles() {return triangles;}
+    const vector<Triangle>& getTriangles() {return triangles;}
 
     list<int> Connect(const int& id, const Point& d);
     void Flip(const int& FirstId, const unsigned int& i ,const int& SecondId, const unsigned int& j);
